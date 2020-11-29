@@ -12,7 +12,7 @@ import UIKit
 
 class HomeScreenCollectionView: UICollectionView{
     
-    let padding:CGFloat = 10
+    let padding:CGFloat = 20
     static let homeScreenCollectionViewIdentifier = "homeScreenCollectionViewIdentifier"
     
     init(){
