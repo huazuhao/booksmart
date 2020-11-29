@@ -11,6 +11,8 @@ import UIKit
 
 class HomeScreenCollectionViewCell: UICollectionViewCell{
     
+    static let homeScreenCollectionViewCellIdentifier = "homeScreenCollectionViewCellIdentifier"
+    
     var bookImage: UIImageView!
     var bookTitle: UILabel!
     var bookCourse: UILabel!
