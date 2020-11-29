@@ -15,15 +15,15 @@ class HomeScreenController: UIViewController {
     var homeScreenUITableHeight: CGFloat!
  
     //fake data
-    let sellFakeData = [bookData(imageName: "calculus_for_dummies", inputTitle: "Calculus for Dummies", inputAuthor: "Bob Smith", inputCourseName: "Math 101"),bookData(imageName: "international_economics", inputTitle: "International Economics", inputAuthor: "Thomas A. Pugel", inputCourseName: "Econ 201"),bookData(imageName: "introduction_to_psychology", inputTitle: "Introduction To Psychology", inputAuthor: "John Smith", inputCourseName: "PSY 110")]
-    let exchangeFakeData = [bookData(imageName: "introduction_to_c_programming", inputTitle: "Introduction to C++ programming", inputAuthor: "John Doe", inputCourseName: "CS 101"),bookData(imageName: "NLP_the_essential_guide", inputTitle: "NLP the Essential Guide", inputAuthor: "Tess Johnson", inputCourseName: "CS 401")]
+    let sellFakeData = [bookData(imageName: "calculus_for_dummies", inputTitle: "Calculus for Dummies", inputAuthor: "Bob Smith", inputCourseName: "Math 101",inputSellType: .sell),bookData(imageName: "international_economics", inputTitle: "International Economics", inputAuthor: "Thomas A. Pugel", inputCourseName: "Econ 201",inputSellType: .sell),bookData(imageName: "introduction_to_psychology", inputTitle: "Introduction To Psychology", inputAuthor: "John Smith", inputCourseName: "PSY 110",inputSellType: .sell)]
+    let exchangeFakeData = [bookData(imageName: "introduction_to_c_programming", inputTitle: "Introduction to C++ programming", inputAuthor: "John Doe", inputCourseName: "CS 101",inputSellType: .exchange),bookData(imageName: "NLP_the_essential_guide", inputTitle: "NLP the Essential Guide", inputAuthor: "Tess Johnson", inputCourseName: "CS 401",inputSellType: .exchange)]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
         view.backgroundColor = .lightGray
-        homeScreenUITableHeight = view.frame.height*0.65
+        homeScreenUITableHeight = view.frame.height*0.6
         
         //search button
         searchButton = UIImageView()
@@ -43,6 +43,7 @@ class HomeScreenController: UIViewController {
         homeScreenUITable.showsVerticalScrollIndicator = false
         homeScreenUITable.layer.cornerRadius = 20
         homeScreenUITable.clipsToBounds = true
+        homeScreenUITable.alwaysBounceVertical = false
         view.addSubview(homeScreenUITable)
         
         
@@ -62,7 +63,7 @@ class HomeScreenController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            homeScreenUITable.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            homeScreenUITable.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             homeScreenUITable.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             homeScreenUITable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             homeScreenUITable.heightAnchor.constraint(equalToConstant: homeScreenUITableHeight)

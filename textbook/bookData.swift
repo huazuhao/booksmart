@@ -8,18 +8,26 @@
 
 import Foundation
 
+enum SellType{
+    case sell
+    case exchange
+}
+
+
 class bookData {
     
     var bookImageName : String
     var title: String
     var author: String
     var courseName: String
+    var sellType: SellType
     
-    init(imageName:String,inputTitle:String,inputAuthor:String,inputCourseName:String) {
+    init(imageName:String,inputTitle:String,inputAuthor:String,inputCourseName:String,inputSellType:SellType) {
         bookImageName = imageName
         title = inputTitle
         author = inputAuthor
         courseName = inputCourseName
+        sellType = inputSellType
     }
     
     

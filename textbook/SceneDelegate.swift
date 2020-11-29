@@ -21,7 +21,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if let windowScene = scene as? UIWindowScene{
                 let window = UIWindow(windowScene: windowScene)
-                let rootViewController = HomeScreenController()
+                //let rootViewController = HomeScreenController()
+                //let rootViewController = AddNewBook()
+                let rootViewController = TabBarController()
                 window.rootViewController = UINavigationController(rootViewController: rootViewController)
                 self.window = window
                 window.makeKeyAndVisible()
