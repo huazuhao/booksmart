@@ -9,8 +9,6 @@
 import UIKit
 
 class HomeScreenController: UIViewController {
-    //remove later
-    let searchController = UISearchController(searchResultsController: nil)
 
     var searchButton : UIImageView!
     var homeScreenUITable: UITableView!
