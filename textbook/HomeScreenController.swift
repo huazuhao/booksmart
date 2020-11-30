@@ -78,7 +78,7 @@ class HomeScreenController: UIViewController {
     
     @objc func searchTapped() {
         let newViewController = SearchViewController()
-        navigationController?.pushViewController(newViewController, animated: true)
+        present(newViewController, animated: true)
     }
 
 }
