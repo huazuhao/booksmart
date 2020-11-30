@@ -9,6 +9,8 @@
 import UIKit
 
 class HomeScreenController: UIViewController {
+    //remove later
+    let searchController = UISearchController(searchResultsController: nil)
 
     var searchButton : UIImageView!
     var homeScreenUITable: UITableView!
@@ -28,6 +30,8 @@ class HomeScreenController: UIViewController {
         //search button
         searchButton = UIImageView()
         searchButton.image = UIImage(named: "search_icon")
+        searchButton.isUserInteractionEnabled = true
+        searchButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.searchTapped)))
         searchButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(searchButton)
         
@@ -70,6 +74,11 @@ class HomeScreenController: UIViewController {
         ])
         
         
+    }
+    
+    @objc func searchTapped() {
+        let newViewController = SearchViewController()
+        navigationController?.pushViewController(newViewController, animated: true)
     }
 
 }
