@@ -50,10 +50,10 @@ Get all books.
 
   
 
-## /api/books/<int:id>/
+## /api/books/\<int:id\>/
 
 Get book by id. 
-<int:id>: book id
+\<int:id\>: book id
 
 **Request body:** /
 
@@ -64,6 +64,7 @@ null, "sellerId": 1}}`
 ## /api/books/sell/
 
 Sell a book.
+
 **Request body:**
 ```
 {
@@ -100,15 +101,16 @@ null, "sellerId": 1}}
 
 **[dev only]** Delete all books.
 
+
 **Request body:** /
 
 **Sample response:** /
   
 
-## /api/users/<int:id>/
+## /api/users/\<int:id\>/
 
 Get user by id.
-<int:id>: user id
+\<int:id\>: user id
 
 **Request body:** /
 
@@ -143,10 +145,10 @@ Create a user.
 
 **Sample response:** TBD
 
-## /api/users/<int:id>/cart/add/
+## /api/users/\<int:id\>/cart/add/
 
 Add a book to cart.
-<int:id>: user id
+\<int:id\>: user id
 
 **Request body:**
 ```
@@ -166,10 +168,10 @@ Add a book to cart.
 null, "sellerId": 1}}
   ```
 
-## /api/users/<int:id>/cart/remove/
+## /api/users/\<int:id\>/cart/remove/
 
 Remove a book from cart
-<int:id>: user id
+\<int:id\>: user id
 
 **Request body:**
 ```
@@ -193,6 +195,7 @@ null, "sellerId": 1}}
 ## /api/dev/users/delete-all/
 
 **[dev only]** Delete all users.
+
 **Request body:** /
 
 **Sample response:** /
