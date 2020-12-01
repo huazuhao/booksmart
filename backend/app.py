@@ -1,4 +1,4 @@
-from db import db, Book, User
+from db import db, Book, User, book_user_table
 from flask import Flask
 import json
 from flask import request
@@ -22,7 +22,7 @@ def failure_response(message, code=404):
     return json.dumps({"success": False, "error": message}), code
 
 ######### BOOKS ##########
-@app.route('/api/books/all')
+@app.route('/api/books/all/')
 def get_books():
     data = []
     for b in Book.query.all():
@@ -30,14 +30,28 @@ def get_books():
         data.append(mydict)
     return success_response(data)
 
-@app.route('/api/books/', methods=["POST"])
+@app.route('/api/books/<int:id>/')
+def get_book(id):
+    c = Book.query.filter_by(id = id).first()
+    if c is None:
+        return failure_response('book not found')
+    data = c.serialize()
+    return success_response(data)
+
+@app.route('/api/books/sell/', methods=["POST"])
 def create_book():
+    '''
+    body:
+    [required]: title, price, sellerId
+    [optional]: image, author, courseName, isbn, edition
+    '''
     body = json.loads(request.data)
+    price = body.get('price')
 
     # check necessary fields
-    if body.get('title') is None or body.get('price') is None or not str(body.get('price')).isnumeric() or \
-        body.get('sellerId') is None or body.get('sellType') is None:
-        return failure_response('title/price/sellerId/sellType is empty or malformed')
+    if body.get('title') is None or price is None or not (isinstance(price, int) or \
+        isinstance(price, float)) or body.get('sellerId') is None:
+        return failure_response('title/price/sellerId is empty or malformed')
 
     # check user exists
     c = User.query.filter_by(id = body.get('sellerId')).first()
@@ -47,14 +61,19 @@ def create_book():
     # create new book
     new_book = Book(image=body.get('image',''), title=body.get('title'),\
         author=body.get('author',''), courseName=body.get('courseName',''),\
-            isbn=body.get('isbn',''), edition=body.get('edition',''), price=str(body.get('price')),\
-                sellType=body.get('sellType'), sellerId=body.get('sellerId'))
+            isbn=body.get('isbn',''), edition=body.get('edition',''), price=str(round(price, 2)),\
+                sellerId=body.get('sellerId'))
     db.session.add(new_book)
     db.session.commit()
     data = new_book.serialize()
 
     return success_response(data, 201)
 
+@app.route('/api/dev/books/delete-all/', methods=["DELETE"])
+def clear_books():
+    db.session.query(Book).delete()
+    db.session.commit()
+    return success_response({})
 
 ######### USERS ##########
 @app.route('/api/users/<int:id>/')
@@ -67,6 +86,10 @@ def get_user(id):
 
 @app.route('/api/users/', methods=["POST"])
 def create_user():
+    '''
+    body:
+    [required]: name, email
+    '''
     body = json.loads(request.data)
     if body.get('name') is None or body.get('email') is None:
         return failure_response('name or email is empty')
@@ -75,6 +98,42 @@ def create_user():
     db.session.commit()
     data = new_user.serialize()
     return success_response(data, 201)
+
+@app.route('/api/users/<int:id>/add/', methods=["POST"])
+def add_to_cart(id):
+    '''
+    body:
+    [required]: bookId
+    '''
+    body = json.loads(request.data)
+    bookId = body.get('bookId')
+    if bookId is None:
+        return failure_response('name or email is empty')
+
+    # get book
+    book = Book.query.filter_by(id = bookId).first()
+    if book is None:
+        return failure_response('book not found')
+    
+    # get user
+    user = User.query.filter_by(id = id).first()
+    if user is None:
+        return failure_response('user not found')
+
+    #TODO: not your own book
+    
+    # add to cart
+    # user.cart.append(book)
+    assoc = book_user_table.insert().values(book_id=bookId, user_id=id)
+    db.session.execute(assoc)
+    db.session.commit()
+
+    return success_response(book.serialize(), 201)
+
+@app.route('/api/dev/users/delete-all/', methods=['DELETE'])
+def clear_users():
+    db.User.query.delete()
+    return success_response({})
 
 if __name__ == "__main__":
     # port = int(os.environ.get("PORT", 5000))

@@ -3,7 +3,7 @@ import datetime
 
 db = SQLAlchemy()
 
-association_table = db.Table("association", db.Model.metadata,
+book_user_table = db.Table("book_user_table", db.Model.metadata,
     db.Column("book_id", db.Integer, db.ForeignKey("book.id")),
     db.Column("user_id", db.Integer, db.ForeignKey("user.id"))
 )
@@ -21,7 +21,7 @@ class Book(db.Model):
   isbn = db.Column(db.String, nullable = False)
   edition = db.Column(db.String, nullable = False)
   price = db.Column(db.String, nullable = False)
-  sellType = db.Column(db.String, nullable = False)
+  # sellType = db.Column(db.String, nullable = False)
   available = db.Column(db.Boolean, nullable = False, unique=False, default=True)
 
   createdAt = db.Column(db.String, default=_get_date)
@@ -29,7 +29,7 @@ class Book(db.Model):
 
   sellerId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-  users = db.relationship('User', secondary=association_table, back_populates='cart')
+  users = db.relationship('User', secondary=book_user_table, back_populates='cart')
 
   def __init__(self, **kwargs):
     self.image = kwargs.get('image')
@@ -39,7 +39,7 @@ class Book(db.Model):
     self.isbn = kwargs.get('isbn')
     self.edition = kwargs.get('edition')
     self.price = kwargs.get('price')
-    self.sellType = kwargs.get('sellType') # TODO: validate
+    # self.sellType = kwargs.get('sellType') # TODO: validate
     self.sellerId = kwargs.get('sellerId')
 
   def serialize(self):
@@ -52,7 +52,7 @@ class Book(db.Model):
       'isbn': self.isbn,
       'edition': self.edition,
       'price': self.price,
-      'sellType': self.sellType,
+      # 'sellType': self.sellType,
       'available': self.available,
 
       'createdAt': self.createdAt,
@@ -67,7 +67,7 @@ class User(db.Model):
   email = db.Column(db.String, nullable = False)
   name = db.Column(db.String, nullable = False)
   selling = db.relationship('Book', cascade='delete')
-  cart = db.relationship('Book', secondary=association_table, back_populates='users')
+  cart = db.relationship('Book', secondary=book_user_table, back_populates='users')
 
   def __init__(self, **kwargs):
     self.email = kwargs.get('email')
