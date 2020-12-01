@@ -48,8 +48,8 @@ class AddNewBook: UIViewController {
     }
     
     @objc func tappingImage(recognizer: UIGestureRecognizer){
-        //image tapped 
-        showImagePickerController()
+        //image tapped
+        showChooseSourceTypeAlertController()
     }
 
     /*
@@ -67,13 +67,40 @@ class AddNewBook: UIViewController {
 extension AddNewBook:UIImagePickerControllerDelegate,UINavigationControllerDelegate{
     // we need UINavigationControllerDelegate because we need to present a new view
     
-    func showImagePickerController(){
+    func showChooseSourceTypeAlertController() {
+        
+        let photoLibraryAction = UIAlertAction(title: "Choose A Photo", style: .default) { (action) in
+            self.showImagePickerController(sourceType: .photoLibrary)
+        }
+        
+        let cameraAction = UIAlertAction(title: "Take A New Photo", style: .default) { (action) in
+            self.showImagePickerController(sourceType: .camera)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(photoLibraryAction)
+        alert.addAction(cameraAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func showImagePickerController(sourceType:UIImagePickerController.SourceType){
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
+        imagePickerController.sourceType = sourceType
+        
         present(imagePickerController,animated: true)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            bookImage.image = selectedImage
+        }
+        
         dismiss(animated: true, completion: nil)
     }
     
