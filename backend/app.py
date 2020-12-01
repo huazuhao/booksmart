@@ -99,7 +99,7 @@ def create_user():
     data = new_user.serialize()
     return success_response(data, 201)
 
-@app.route('/api/users/<int:id>/add/', methods=["POST"])
+@app.route('/api/users/<int:id>/cart/add/', methods=["POST"])
 def add_to_cart(id):
     '''
     body:
@@ -107,6 +107,38 @@ def add_to_cart(id):
     '''
     body = json.loads(request.data)
     bookId = body.get('bookId')
+
+    if bookId is None:
+        return failure_response('bookId is empty')
+
+    # get book
+    book = Book.query.filter_by(id = bookId).first()
+    if book is None:
+        return failure_response('book not found')
+    
+    # get user
+    user = User.query.filter_by(id = id).first()
+    if user is None:
+        return failure_response('user not found')
+
+    #TODO: not your own book
+
+    # add to cart
+    assoc = book_user_table.insert().values(book_id=bookId, user_id=id)
+    db.session.execute(assoc)
+    db.session.commit()
+
+    return success_response(book.serialize(), 201)
+
+@app.route('/api/users/<int:id>/cart/remove/', methods=['DELETE'])
+def remove_from_cart(id):
+    '''
+    body:
+    [required]: bookId
+    '''
+    body = json.loads(request.data)
+    bookId = body.get('bookId')
+
     if bookId is None:
         return failure_response('name or email is empty')
 
@@ -120,15 +152,13 @@ def add_to_cart(id):
     if user is None:
         return failure_response('user not found')
 
-    #TODO: not your own book
-    
-    # add to cart
-    # user.cart.append(book)
-    assoc = book_user_table.insert().values(book_id=bookId, user_id=id)
-    db.session.execute(assoc)
-    db.session.commit()
+    # remove from cart
+    if book in user.cart:
+        user.cart.remove(book)
+        db.session.commit()
 
     return success_response(book.serialize(), 201)
+
 
 @app.route('/api/dev/users/delete-all/', methods=['DELETE'])
 def clear_users():
