@@ -21,13 +21,15 @@ class bookData {
     var author: String
     var courseName: String
     var sellType: SellType
+    var sellPrice: Double
     
-    init(imageName:String,inputTitle:String,inputAuthor:String,inputCourseName:String,inputSellType:SellType) {
+    init(imageName:String,inputTitle:String,inputAuthor:String,inputCourseName:String,inputSellType:SellType,inputSellPrice:Double) {
         bookImageName = imageName
         title = inputTitle
         author = inputAuthor
         courseName = inputCourseName
         sellType = inputSellType
+        sellPrice = inputSellPrice
     }
     
     

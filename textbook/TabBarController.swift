@@ -34,14 +34,19 @@ class TabBarController: UITabBarController {
         let attributes: [NSAttributedString.Key: AnyObject] = [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue):UIFont(name: "American Typewriter", size: 12)!]
         appearance.setTitleTextAttributes(attributes, for: .normal)
         
+        //homescreen
         let newHomeIconImage = Util.resizeImage(image: UIImage(named: "home_icon")!, targetSize: CGSize(width: 28, height: 28))
         let home = generateNavController(vc: HomeScreenController(), barTitle: "Home", pageTitle: "Home", image: newHomeIconImage)
         
+        //sell new book
         let newAddIcon = Util.resizeImage(image: UIImage(named: "add_icon")!, targetSize: CGSize(width: 28, height: 28))
-        let addNewBook = generateNavController(vc: AddNewBook(), barTitle: "Add", pageTitle: "Add A New Book", image: newAddIcon)
+        let addNewBook = generateNavController(vc: AddNewBook(), barTitle: "Sell", pageTitle: "Sell A New Book", image: newAddIcon)
         
+        //cart
+        let newCartIcon = Util.resizeImage(image: UIImage(named: "cart_icon")!, targetSize: CGSize(width: 28, height: 28))
+        let cart = generateNavController(vc: CartViewController(), barTitle: "Cart", pageTitle: "My Shopping Cart", image: newCartIcon)
 
-        viewControllers = [home,addNewBook]
+        viewControllers = [home,addNewBook,cart]
 
     }
     
