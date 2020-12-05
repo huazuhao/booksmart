@@ -24,6 +24,7 @@
 		6C812E582579D6DF0066EE78 /* BottomBorderTF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C812E572579D6DF0066EE78 /* BottomBorderTF.swift */; };
 		6C812E5B2579D8AD0066EE78 /* UnderlinedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C812E5A2579D8AD0066EE78 /* UnderlinedTextField.swift */; };
 		E8A4978E257B2D1800F13FF6 /* ProductInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A4978D257B2D1800F13FF6 /* ProductInfoViewController.swift */; };
+		E8A49790257B4A2800F13FF6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A4978F257B4A2800F13FF6 /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		6C812E572579D6DF0066EE78 /* BottomBorderTF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBorderTF.swift; sourceTree = "<group>"; };
 		6C812E5A2579D8AD0066EE78 /* UnderlinedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlinedTextField.swift; sourceTree = "<group>"; };
 		E8A4978D257B2D1800F13FF6 /* ProductInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfoViewController.swift; sourceTree = "<group>"; };
+		E8A4978F257B4A2800F13FF6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 				412850A02571A92A00B319C1 /* SceneDelegate.swift */,
 				412850A22571A92A00B319C1 /* HomeScreenController.swift */,
 				6C812DC6257414210066EE78 /* AddNewBook.swift */,
+				E8A4978F257B4A2800F13FF6 /* LoginViewController.swift */,
 				6C812E5A2579D8AD0066EE78 /* UnderlinedTextField.swift */,
 				6C812E572579D6DF0066EE78 /* BottomBorderTF.swift */,
 				6C812DBA25720F330066EE78 /* HomeScreenTableCell.swift */,
@@ -182,6 +185,7 @@
 				6C812E522579A6420066EE78 /* CartTableViewCell.swift in Sources */,
 				6C812DB32571E31A0066EE78 /* HomeScreenCollectionViewCell.swift in Sources */,
 				6C812DBB25720F330066EE78 /* HomeScreenTableCell.swift in Sources */,
+				E8A49790257B4A2800F13FF6 /* LoginViewController.swift in Sources */,
 				6C812DCA2574152D0066EE78 /* Util.swift in Sources */,
 				6C812DB02571E0DD0066EE78 /* bookData.swift in Sources */,
 				412850A12571A92A00B319C1 /* SceneDelegate.swift in Sources */,
