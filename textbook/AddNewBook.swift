@@ -128,6 +128,7 @@ class AddNewBook: UIViewController {
         confirmButton.clipsToBounds = true
         confirmButton.setTitle("Confirm To Sell", for: .normal)
         confirmButton.setTitleColor(.black, for: .normal)
+        confirmButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         confirmButton.translatesAutoresizingMaskIntoConstraints = false
         confirmButton.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
         confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
