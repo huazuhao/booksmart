@@ -41,7 +41,7 @@ class ProductInfoViewController: UIViewController {
         bookTitle.textAlignment = .left
         bookTitle.font = .systemFont(ofSize: 22, weight: .bold)
         // temporary placeholder, add later
-        bookTitle.text = "Book Title Goes Here"
+        bookTitle.text = "Book Title Goes Here" //there is a config for this
         bookTitle.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bookTitle)
             
@@ -50,7 +50,7 @@ class ProductInfoViewController: UIViewController {
         bookAuthor.textAlignment = .left
         bookAuthor.font = .systemFont(ofSize: 15, weight: .regular)
         // temporary placeholder, add later
-        bookAuthor.text = "Book Author Goes Here"
+        bookAuthor.text = "Book Author Goes Here" //there is a config for this
         bookAuthor.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bookAuthor)
             
@@ -77,7 +77,7 @@ class ProductInfoViewController: UIViewController {
         bookPrice.textAlignment = .right
         bookPrice.font = .systemFont(ofSize: 22, weight: .bold)
         // temporary placeholder, add later
-        bookPrice.text = "Price"
+        bookPrice.text = "Price" //there is a config for this
         bookPrice.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bookPrice)
             
@@ -247,6 +247,12 @@ class ProductInfoViewController: UIViewController {
         ])
     }
         
+    func configure(inputbookData:bookData){
+        bookTitle.text = inputbookData.title
+        bookAuthor.text = inputbookData.author
+        bookPrice.text = String(format: "%.2f", inputbookData.sellPrice)
+    }
+    
     @objc func addButtonTapped()
     {
         //TODO - put books into cart
