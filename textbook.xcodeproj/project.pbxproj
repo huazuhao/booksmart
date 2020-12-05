@@ -23,6 +23,7 @@
 		6C812E552579B6670066EE78 /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C812E542579B6670066EE78 /* CartViewController.swift */; };
 		6C812E582579D6DF0066EE78 /* BottomBorderTF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C812E572579D6DF0066EE78 /* BottomBorderTF.swift */; };
 		6C812E5B2579D8AD0066EE78 /* UnderlinedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C812E5A2579D8AD0066EE78 /* UnderlinedTextField.swift */; };
+		6C812E6A257BFFA60066EE78 /* CartTotalLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C812E69257BFFA60066EE78 /* CartTotalLabel.swift */; };
 		E8A4978E257B2D1800F13FF6 /* ProductInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A4978D257B2D1800F13FF6 /* ProductInfoViewController.swift */; };
 		E8A49790257B4A2800F13FF6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A4978F257B4A2800F13FF6 /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
@@ -46,6 +47,7 @@
 		6C812E542579B6670066EE78 /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
 		6C812E572579D6DF0066EE78 /* BottomBorderTF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBorderTF.swift; sourceTree = "<group>"; };
 		6C812E5A2579D8AD0066EE78 /* UnderlinedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlinedTextField.swift; sourceTree = "<group>"; };
+		6C812E69257BFFA60066EE78 /* CartTotalLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartTotalLabel.swift; sourceTree = "<group>"; };
 		E8A4978D257B2D1800F13FF6 /* ProductInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfoViewController.swift; sourceTree = "<group>"; };
 		E8A4978F257B4A2800F13FF6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -84,6 +86,7 @@
 				4128509E2571A92A00B319C1 /* AppDelegate.swift */,
 				6C812E512579A6420066EE78 /* CartTableViewCell.swift */,
 				6C812E542579B6670066EE78 /* CartViewController.swift */,
+				6C812E69257BFFA60066EE78 /* CartTotalLabel.swift */,
 				412850A02571A92A00B319C1 /* SceneDelegate.swift */,
 				412850A22571A92A00B319C1 /* HomeScreenController.swift */,
 				6C812DC6257414210066EE78 /* AddNewBook.swift */,
@@ -177,6 +180,7 @@
 				6C812DC02574077D0066EE78 /* TabBarController.swift in Sources */,
 				6C812DC7257414210066EE78 /* AddNewBook.swift in Sources */,
 				E8A4978E257B2D1800F13FF6 /* ProductInfoViewController.swift in Sources */,
+				6C812E6A257BFFA60066EE78 /* CartTotalLabel.swift in Sources */,
 				6C812E5B2579D8AD0066EE78 /* UnderlinedTextField.swift in Sources */,
 				6C812DB825720D0E0066EE78 /* HomeScreenCollectionView.swift in Sources */,
 				6C812E552579B6670066EE78 /* CartViewController.swift in Sources */,

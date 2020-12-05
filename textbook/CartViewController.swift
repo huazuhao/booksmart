@@ -11,7 +11,11 @@ import UIKit
 class CartViewController: UIViewController {
     
     var cartTableView: UITableView!
-    let sidePadding:CGFloat = 20
+    var cartTotalLabelLeft: LeftLabel!
+    var cartTotalLabelRight: RightLabel!
+    var blackLine: UILabel!
+    var confirmButton: UIButton!
+    let sidePadding:CGFloat = 25
     
     
     //fake data
@@ -86,9 +90,41 @@ class CartViewController: UIViewController {
         NSLayoutConstraint.activate([
             cartTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: sidePadding),
             cartTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -sidePadding),
-            cartTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            cartTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
             cartTableView.heightAnchor.constraint(equalToConstant: view.frame.height*0.5)
         ])
+        
+        NSLayoutConstraint.activate([
+            blackLine.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: sidePadding),
+            blackLine.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -sidePadding),
+            blackLine.topAnchor.constraint(equalTo: cartTableView.bottomAnchor),
+            blackLine.heightAnchor.constraint(equalToConstant: 1)
+        ])
+        
+        NSLayoutConstraint.activate([
+            cartTotalLabelLeft.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: sidePadding),
+            cartTotalLabelLeft.topAnchor.constraint(equalTo: blackLine.bottomAnchor),
+            cartTotalLabelLeft.heightAnchor.constraint(equalToConstant: 50),
+            cartTotalLabelLeft.widthAnchor.constraint(equalToConstant: (view.frame.width-sidePadding*2)/2)
+        ])
+        
+        NSLayoutConstraint.activate([
+            cartTotalLabelRight.leadingAnchor.constraint(equalTo: cartTotalLabelLeft.trailingAnchor),
+            cartTotalLabelRight.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -sidePadding),
+            cartTotalLabelRight.topAnchor.constraint(equalTo: blackLine.bottomAnchor),
+            cartTotalLabelRight.heightAnchor.constraint(equalToConstant: 50)
+        ])
+        
+        NSLayoutConstraint.activate([
+            confirmButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
+            confirmButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: sidePadding),
+            confirmButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -sidePadding),
+            confirmButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
+    }
+    
+    @objc func confirmButtonTapped(){
+        print("purchase button tapped. do something")
     }
 
     /*
