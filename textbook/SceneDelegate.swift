@@ -25,6 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 //let rootViewController = AddNewBook()
                 //let rootViewController = CartViewController()
                 let rootViewController = TabBarController()
+                //let rootViewController = ProductInfoViewController()
                 window.rootViewController = UINavigationController(rootViewController: rootViewController)
                 self.window = window
                 window.makeKeyAndVisible()
