@@ -15,7 +15,7 @@ class CartViewController: UIViewController {
     var cartTotalLabelRight: RightLabel!
     var blackLine: UILabel!
     var confirmButton: UIButton!
-    let sidePadding:CGFloat = 25
+    let sidePadding:CGFloat = 26
     
     
     
