@@ -38,6 +38,47 @@ class CartViewController: UIViewController {
         cartTableView.bounces = false
         view.addSubview(cartTableView)
         
+        blackLine = UILabel()
+        blackLine.translatesAutoresizingMaskIntoConstraints = false
+        blackLine.backgroundColor = .black
+        blackLine.isUserInteractionEnabled = false
+        view.addSubview(blackLine)
+        
+        cartTotalLabelLeft = LeftLabel()
+        cartTotalLabelLeft.translatesAutoresizingMaskIntoConstraints = false
+        cartTotalLabelLeft.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+        cartTotalLabelLeft.layer.cornerRadius = 20
+        cartTotalLabelLeft.layer.maskedCorners = [.layerMinXMaxYCorner]
+        cartTotalLabelLeft.clipsToBounds = true
+        cartTotalLabelLeft.text = "Total"
+        cartTotalLabelLeft.isUserInteractionEnabled = false
+        cartTotalLabelLeft.font = .systemFont(ofSize: 20)
+        view.addSubview(cartTotalLabelLeft)
+
+        cartTotalLabelRight = RightLabel()
+        cartTotalLabelRight.translatesAutoresizingMaskIntoConstraints = false
+        cartTotalLabelRight.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+        cartTotalLabelRight.layer.cornerRadius = 20
+        cartTotalLabelRight.layer.maskedCorners = [.layerMaxXMaxYCorner]
+        cartTotalLabelRight.clipsToBounds = true
+        cartTotalLabelRight.text = "$$Total"
+        cartTotalLabelRight.textAlignment = .right
+        cartTotalLabelRight.isUserInteractionEnabled = false
+        cartTotalLabelRight.font = .systemFont(ofSize: 20)
+        view.addSubview(cartTotalLabelRight)
+        
+        confirmButton = UIButton()
+        confirmButton.layer.cornerRadius = 20
+        confirmButton.clipsToBounds = true
+        confirmButton.setTitle("Confirm Purchase", for: .normal)
+        confirmButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        confirmButton.setTitleColor(.black, for: .normal)
+        confirmButton.translatesAutoresizingMaskIntoConstraints = false
+        confirmButton.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+        confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
+        view.addSubview(confirmButton)
+        
+
         setupConstraints()
     }
     
