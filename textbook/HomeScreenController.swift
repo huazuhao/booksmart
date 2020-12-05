@@ -15,8 +15,8 @@ class HomeScreenController: UIViewController {
     var homeScreenUITableHeight: CGFloat!
  
     //fake data
-    let sellFakeData = [bookData(imageName: "calculus_for_dummies", inputTitle: "Calculus for Dummies", inputAuthor: "Bob Smith", inputCourseName: "Math 101",inputSellType: .sell,inputSellPrice: 100),bookData(imageName: "international_economics", inputTitle: "International Economics", inputAuthor: "Thomas A. Pugel", inputCourseName: "Econ 201",inputSellType: .sell,inputSellPrice: 200),bookData(imageName: "introduction_to_psychology", inputTitle: "Introduction To Psychology", inputAuthor: "John Smith", inputCourseName: "PSY 110",inputSellType: .sell,inputSellPrice: 300)]
-    let exchangeFakeData = [bookData(imageName: "introduction_to_c_programming", inputTitle: "Introduction to C++ programming", inputAuthor: "John Doe", inputCourseName: "CS 101",inputSellType: .exchange,inputSellPrice: 0),bookData(imageName: "NLP_the_essential_guide", inputTitle: "NLP the Essential Guide", inputAuthor: "Tess Johnson", inputCourseName: "CS 401",inputSellType: .exchange,inputSellPrice: 0)]
+    let addedFakeData = [bookData(imageName: "calculus_for_dummies", inputTitle: "Calculus for Dummies", inputAuthor: "Bob Smith", inputCourseName: "Math 101",inputSellType: .sell,inputSellPrice: 100),bookData(imageName: "international_economics", inputTitle: "International Economics", inputAuthor: "Thomas A. Pugel", inputCourseName: "Econ 201",inputSellType: .sell,inputSellPrice: 200),bookData(imageName: "introduction_to_psychology", inputTitle: "Introduction To Psychology", inputAuthor: "John Smith", inputCourseName: "PSY 110",inputSellType: .sell,inputSellPrice: 300)]
+    let lowestFakeData = [bookData(imageName: "introduction_to_c_programming", inputTitle: "Introduction to C++ programming", inputAuthor: "John Doe", inputCourseName: "CS 101",inputSellType: .exchange,inputSellPrice: 0),bookData(imageName: "NLP_the_essential_guide", inputTitle: "NLP the Essential Guide", inputAuthor: "Tess Johnson", inputCourseName: "CS 401",inputSellType: .exchange,inputSellPrice: 0)]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +44,7 @@ class HomeScreenController: UIViewController {
         homeScreenUITable.layer.cornerRadius = 20
         homeScreenUITable.clipsToBounds = true
         homeScreenUITable.alwaysBounceVertical = false
+        homeScreenUITable.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
         view.addSubview(homeScreenUITable)
         
         
@@ -86,11 +87,11 @@ extension HomeScreenController:UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: HomeScreenTableCell.homeScreenTableCellIdentifier, for: indexPath) as! HomeScreenTableCell
         
         if indexPath.row == 0{
-            cell.configure(rowName: "Best Selling Offer", rowData: sellFakeData)
+            cell.configure(rowName: "Recently Added", rowData: addedFakeData)
         }
         
         if indexPath.row == 1{
-            cell.configure(rowName: "Best Exchange Offer", rowData: exchangeFakeData)
+            cell.configure(rowName: "Lowest Selling Price", rowData: lowestFakeData)
         }
         
         return cell
