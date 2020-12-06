@@ -55,7 +55,7 @@ struct Book: Codable{
     var price: String
     var available: Bool
     var createdAt: String
-    var updatedAt: String
-    var sellId: Int
+    var updatedAt: String?
+    var sellerId: Int
     
 }

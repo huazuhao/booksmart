@@ -17,29 +17,24 @@ class NetworkManager {
         let endpoint = "\(host)/api/books/all/"
         AF.request(endpoint, method: .get).validate().responseData { response in
             
-            print("response from backend is \(response)")
-            
             switch response.result {
             case .success(let data):
-                
-                print("data is \(data)")
-                
                 let jsonDecoder = JSONDecoder()
-                jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
                 if let recentlyAddedResponse = try? jsonDecoder.decode(RecentlyAdded.self, from: data) {
                     // Instructions: Use completion to handle response
-                    let data = recentlyAddedResponse.data
-                    print("inside network manager and getting recently added")
-                    completion(data)
+                    let receivedData = recentlyAddedResponse.data
+                    completion(receivedData)
                 }
                 else{
                     print("could not decode data")
                 }
             case .failure(let error):
-                print("failed to get data from backend")
                 print(error.localizedDescription)
             }
         }
     }
+    
+    
+    
     
 }
