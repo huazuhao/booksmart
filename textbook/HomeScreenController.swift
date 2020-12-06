@@ -13,6 +13,8 @@ class HomeScreenController: UIViewController {
     var searchButton : UIImageView!
     var homeScreenUITable: UITableView!
     var homeScreenUITableHeight: CGFloat!
+    
+    var recentlyAdded: [Book] = []
  
     //fake data
     let addedFakeData = [bookData(imageName: "calculus_for_dummies", inputTitle: "Calculus for Dummies", inputAuthor: "Bob Smith", inputCourseName: "Math 101",inputSellType: .sell,inputSellPrice: 100),bookData(imageName: "international_economics", inputTitle: "International Economics", inputAuthor: "Thomas A. Pugel", inputCourseName: "Econ 201",inputSellType: .sell,inputSellPrice: 200),bookData(imageName: "introduction_to_psychology", inputTitle: "Introduction To Psychology", inputAuthor: "John Smith", inputCourseName: "PSY 110",inputSellType: .sell,inputSellPrice: 300)]
@@ -47,6 +49,9 @@ class HomeScreenController: UIViewController {
         homeScreenUITable.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
         view.addSubview(homeScreenUITable)
         
+        print("begin to get data")
+        getRecentlyAdded()
+        print("finished getting data")
         
         setupConstraints()
         
@@ -70,6 +75,26 @@ class HomeScreenController: UIViewController {
             homeScreenUITable.heightAnchor.constraint(equalToConstant: homeScreenUITableHeight)
         ])
         
+        
+    }
+    
+    
+    private func getRecentlyAdded(){
+        
+        print("inside get recently added")
+        
+        NetworkManager.getRecentlyAdded{ books in
+            self.recentlyAdded = books
+            
+            print("got data")
+            print(self.recentlyAdded)
+            
+            //reload
+            DispatchQueue.main.async {
+                self.homeScreenUITable.reloadData()
+            }
+            
+        }
         
     }
 

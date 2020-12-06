@@ -34,3 +34,28 @@ class bookData {
     
     
 }
+
+
+struct RecentlyAdded: Codable{
+    
+    var success: Bool
+    var data:[Book]
+}
+
+
+struct Book: Codable{
+    
+    var id: Int
+    var image: String
+    var title: String
+    var author: String
+    var courseName: String
+    var isbn: String
+    var edition: String
+    var price: String
+    var available: Bool
+    var createdAt: String
+    var updatedAt: String
+    var sellId: Int
+    
+}
