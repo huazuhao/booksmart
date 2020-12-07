@@ -158,7 +158,7 @@ class LoginViewController: UIViewController {
         let padding: CGFloat = 50
         
         NSLayoutConstraint.activate([
-            loginTab.bottomAnchor.constraint(equalTo: loginEmail.topAnchor, constant: -120),
+            loginTab.bottomAnchor.constraint(equalTo: loginEmail.topAnchor, constant: -150),
             loginTab.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             loginTab.widthAnchor.constraint(equalToConstant: 120),
             loginTab.heightAnchor.constraint(equalToConstant: 50)
@@ -172,44 +172,44 @@ class LoginViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            registerName.bottomAnchor.constraint(equalTo: registerEmail.topAnchor, constant: -30),
+            registerName.bottomAnchor.constraint(equalTo: registerEmail.topAnchor, constant: -40),
             registerName.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             registerName.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding)
         ])
         
         NSLayoutConstraint.activate([
-            registerEmail.bottomAnchor.constraint(equalTo: registerPassword.topAnchor, constant: -30),
+            registerEmail.bottomAnchor.constraint(equalTo: registerPassword.topAnchor, constant: -40),
             registerEmail.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             registerEmail.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding)
         ])
         
         NSLayoutConstraint.activate([
-            registerPassword.bottomAnchor.constraint(equalTo: registerButton.topAnchor, constant: -30),
+            registerPassword.bottomAnchor.constraint(equalTo: registerButton.topAnchor, constant: -60),
             registerPassword.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             registerPassword.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding)
         ])
         
         NSLayoutConstraint.activate([
-            registerButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -110),
+            registerButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -90),
             registerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             registerButton.widthAnchor.constraint(equalToConstant: 140),
             registerButton.heightAnchor.constraint(equalToConstant: 42)
         ])
         
         NSLayoutConstraint.activate([
-            loginEmail.bottomAnchor.constraint(equalTo: loginPassword.topAnchor, constant: -30),
+            loginEmail.bottomAnchor.constraint(equalTo: loginPassword.topAnchor, constant: -40),
             loginEmail.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             loginEmail.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding)
         ])
         
         NSLayoutConstraint.activate([
-            loginPassword.bottomAnchor.constraint(equalTo: loginButton.topAnchor, constant: -30),
+            loginPassword.bottomAnchor.constraint(equalTo: loginButton.topAnchor, constant: -60),
             loginPassword.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             loginPassword.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding)
         ])
         
         NSLayoutConstraint.activate([
-            loginButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -110),
+            loginButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -90),
             loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loginButton.widthAnchor.constraint(equalToConstant: 140),
             loginButton.heightAnchor.constraint(equalToConstant: 42)

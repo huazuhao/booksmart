@@ -15,6 +15,7 @@ class HomeScreenController: UIViewController {
     var homeScreenUITableHeight: CGFloat!
     
     var recentlyAdded: [Book] = []
+    var lowestSellingPrice: [Book] = []
  
     //fake data
     let addedFakeData = [bookData(imageName: "calculus_for_dummies", inputTitle: "Calculus for Dummies", inputAuthor: "Bob Smith", inputCourseName: "Math 101",inputSellType: .sell,inputSellPrice: 100),bookData(imageName: "international_economics", inputTitle: "International Economics", inputAuthor: "Thomas A. Pugel", inputCourseName: "Econ 201",inputSellType: .sell,inputSellPrice: 200),bookData(imageName: "introduction_to_psychology", inputTitle: "Introduction To Psychology", inputAuthor: "John Smith", inputCourseName: "PSY 110",inputSellType: .sell,inputSellPrice: 300)]
@@ -49,10 +50,8 @@ class HomeScreenController: UIViewController {
         homeScreenUITable.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
         view.addSubview(homeScreenUITable)
         
-        print("begin to get data")
-        getRecentlyAdded()
-        print("finished getting data")
         
+        getRecentlyAdded()
         setupConstraints()
         
         
@@ -80,23 +79,29 @@ class HomeScreenController: UIViewController {
     
     
     private func getRecentlyAdded(){
-        
-        print("inside get recently added")
+        var recentlyAddedFromBackend : [Book] = []
         
         NetworkManager.getRecentlyAdded{ books in
-            self.recentlyAdded = books
+            recentlyAddedFromBackend = books
+            for item in recentlyAddedFromBackend{
+                var newItem = item
+                if newItem.image == ""{
+                    newItem.image = "default_book"
+                }
+                self.recentlyAdded.append(newItem)
+            }
             
-            print("got data")
             print(self.recentlyAdded)
             
             //reload
             DispatchQueue.main.async {
                 self.homeScreenUITable.reloadData()
             }
-            
         }
-        
     }
+    
+    
+    
 
 }
 
@@ -112,11 +117,13 @@ extension HomeScreenController:UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: HomeScreenTableCell.homeScreenTableCellIdentifier, for: indexPath) as! HomeScreenTableCell
         
         if indexPath.row == 0{
-            cell.configure(rowName: "Recently Added", rowData: addedFakeData)
+            cell.configure(rowName: "Recently Added", rowData: self.recentlyAdded)
+            cell.newScreenDelegate = self
         }
         
         if indexPath.row == 1{
-            cell.configure(rowName: "Lowest Selling Price", rowData: lowestFakeData)
+            cell.configure(rowName: "Lowest Selling Price", rowData: self.recentlyAdded)
+            cell.newScreenDelegate = self
         }
         
         return cell
@@ -130,5 +137,16 @@ extension HomeScreenController:UITableViewDataSource{
 }
 
 extension HomeScreenController:UITableViewDelegate{
+    
+}
+
+extension HomeScreenController:ShowProductInfoProtocol{
+    
+    func showProductInfoProtocol(inputBook: Book) {
+        
+        let productInfo = ProductInfoViewController(inputBook: inputBook)
+        navigationController?.pushViewController(productInfo, animated: true)
+    }
+    
     
 }

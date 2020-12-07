@@ -7,8 +7,12 @@
 //
 
 import Foundation
-
 import UIKit
+
+
+protocol ShowProductInfoProtocol: class {
+    func showProductInfoProtocol(inputBook:Book)
+}
 
 class HomeScreenTableCell: UITableViewCell{
     
@@ -16,12 +20,14 @@ class HomeScreenTableCell: UITableViewCell{
     
     var cellTitle: UILabel!
     var embedCollectionView: UICollectionView!
-    var currentTableData : [bookData]!
+    var currentTableData : [Book]!
     
     let cellTitlePadding:CGFloat = 20
     let cellTitleHeight:CGFloat = 40
     let embedCollectionViewTopPadding:CGFloat = 5
     let embedCollectionViewBottomPadding:CGFloat = 10
+    
+    weak var newScreenDelegate: ShowProductInfoProtocol?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -61,7 +67,7 @@ class HomeScreenTableCell: UITableViewCell{
         
     }
     
-    func configure(rowName:String,rowData:[bookData]){
+    func configure(rowName:String,rowData:[Book]){
         //This configure function is used for configuring a row in the UITableView
         cellTitle.text = rowName
         currentTableData = rowData
@@ -83,7 +89,6 @@ extension HomeScreenTableCell:UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeScreenCollectionViewCell.homeScreenCollectionViewCellIdentifier, for: indexPath) as! HomeScreenCollectionViewCell
         cell.configure(inputbookData: currentTableData[indexPath.item])
-        
         return cell
         
     }
@@ -111,5 +116,7 @@ extension HomeScreenTableCell:UICollectionViewDelegate{
 //        navigationController?.pushViewController(redViewController, animated: true)
 //        
 //    }
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        newScreenDelegate?.showProductInfoProtocol(inputBook: currentTableData[indexPath.item])
+    }
 }

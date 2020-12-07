@@ -91,9 +91,9 @@ class HomeScreenCollectionViewCell: UICollectionViewCell{
     }
     
     
-    func configure(inputbookData:bookData){
+    func configure(inputbookData:Book){
         
-        bookImage.image = UIImage(named: inputbookData.bookImageName)
+        bookImage.image = UIImage(named: inputbookData.image)
         bookTitle.text = inputbookData.title
         bookAuthor.text = inputbookData.author
         bookCourse.text = inputbookData.courseName
