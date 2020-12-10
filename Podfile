@@ -7,5 +7,6 @@ target 'textbook' do
 
   # Pods for textbook
   pod 'Alamofire'
+  pod 'SAConfettiView'
 
 end

@@ -1,16 +1,20 @@
 PODS:
   - Alamofire (5.4.0)
+  - SAConfettiView (0.1.8)
 
 DEPENDENCIES:
   - Alamofire
+  - SAConfettiView
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - SAConfettiView
 
 SPEC CHECKSUMS:
   Alamofire: 3b6a534a3df22db367e4dedeeca73d1ddfcf0e2f
+  SAConfettiView: c87031a2280659261b730fce3669fb10e73636ee
 
-PODFILE CHECKSUM: 417bdb60f3fedda4f150793423a85bd29205c837
+PODFILE CHECKSUM: 3567d095b95eee84111208f712f8e588605832d0
 
 COCOAPODS: 1.10.0

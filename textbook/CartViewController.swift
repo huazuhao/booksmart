@@ -124,7 +124,8 @@ class CartViewController: UIViewController {
     }
     
     @objc func confirmButtonTapped(){
-        print("purchase button tapped. do something")
+        let newViewController = SuccessViewController()
+        navigationController?.pushViewController(newViewController, animated: true)
     }
 
     /*
