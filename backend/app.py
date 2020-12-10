@@ -1,4 +1,4 @@
-from db import db, Book, User, book_user_table
+from db import db, Book, User, Asset, book_user_table
 from flask import Flask
 import json
 from flask import request
@@ -164,6 +164,27 @@ def remove_from_cart(id):
 def clear_users():
     db.User.query.delete()
     return success_response({})
+
+###### ASSET #######
+@app.route('/api/upload/', methods=['POST'])
+def upload():
+    body = json.loads(request.data)
+    imageData = body.get('imageData')
+    bookId = body.get('bookId')
+
+    # get book
+    book = Book.query.filter_by(id = bookId).first()
+    if book is None:
+        return failure_response('book not found (create the book first!)')
+
+    if imageData is None:
+        return failure_response('No base64 URL to be found.')
+
+    asset = Asset(imageData=imageData)
+    db.session.add(asset)
+    db.session.commit()
+    
+    return success_response(asset.serialize(), 201)
 
 if __name__ == "__main__":
     # port = int(os.environ.get("PORT", 5000))
