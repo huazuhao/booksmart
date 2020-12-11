@@ -180,7 +180,7 @@ def upload():
     if imageData is None:
         return failure_response('No base64 URL to be found.')
 
-    asset = Asset(imageData=imageData)
+    asset = Asset(imageData=imageData, bookId=bookId)
     db.session.add(asset)
     db.session.commit()
     
