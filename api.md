@@ -199,3 +199,22 @@ null, "sellerId": 1}}
 **Request body:** /
 
 **Sample response:** /
+
+
+## /api/upload/
+
+Upload image.
+
+**Request body:**
+```
+{
+    "imageData": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAACWCAYAAACoyxpVAAAMYmlDQ1BJQ0MgUHJvZmlsZQAASImVVwdYU8kWnltSSWiBUKSE3kSRGkBKCC2CgFRBVEISSCgxJgQVOyqr4NpFFMuKroq46OoKyFoQsbso9r5YUFHWxYINlTchAV195Xvn++bOnzNn........",
+    "bookId": 2
+}
+```
+
+**Sample response:** 
+```
+{"success": true, "data": {"bookId": 2, "url": "https://booksmart.s3-us-east-1.amazonaws.com/7QNRZAJA3RJTVD3L.png",
+"createdAt": "2020-12-12 11:41:00.335923"}}
+```
