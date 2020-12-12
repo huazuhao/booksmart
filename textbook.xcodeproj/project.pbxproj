@@ -26,6 +26,8 @@
 		6C812E6F257C677E0066EE78 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C812E6E257C677E0066EE78 /* NetworkManager.swift */; };
 		6C812E75257D913D0066EE78 /* ProductInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C812E74257D913D0066EE78 /* ProductInfoView.swift */; };
 		6C812E78257D93D40066EE78 /* ProductInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C812E77257D93D40066EE78 /* ProductInfoViewController.swift */; };
+		E82779AD25845F9F00EE187C /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82779AC25845F9F00EE187C /* SearchViewController.swift */; };
+		E82779AF2584608500EE187C /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82779AE2584608500EE187C /* SearchTableViewCell.swift */; };
 		E8A49790257B4A2800F13FF6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A4978F257B4A2800F13FF6 /* LoginViewController.swift */; };
 		E8A497962581B4A200F13FF6 /* SuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A497952581B4A200F13FF6 /* SuccessViewController.swift */; };
 /* End PBXBuildFile section */
@@ -54,6 +56,8 @@
 		6C812E74257D913D0066EE78 /* ProductInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfoView.swift; sourceTree = "<group>"; };
 		6C812E77257D93D40066EE78 /* ProductInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfoViewController.swift; sourceTree = "<group>"; };
 		B4686C12BF6E031CFBBDF054 /* Pods_textbook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_textbook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E82779AC25845F9F00EE187C /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		E82779AE2584608500EE187C /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		E8A4978F257B4A2800F13FF6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E8A497952581B4A200F13FF6 /* SuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SuccessViewController.swift; path = /Users/jessicawu/Desktop/textbook/textbook/SuccessViewController.swift; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
@@ -100,6 +104,8 @@
 				6C812E69257BFFA60066EE78 /* CartTotalLabel.swift */,
 				412850A02571A92A00B319C1 /* SceneDelegate.swift */,
 				412850A22571A92A00B319C1 /* HomeScreenController.swift */,
+				E82779AC25845F9F00EE187C /* SearchViewController.swift */,
+				E82779AE2584608500EE187C /* SearchTableViewCell.swift */,
 				6C812DC6257414210066EE78 /* AddNewBook.swift */,
 				E8A4978F257B4A2800F13FF6 /* LoginViewController.swift */,
 				6C812DBA25720F330066EE78 /* HomeScreenTableCell.swift */,
@@ -251,10 +257,12 @@
 				412850A32571A92A00B319C1 /* HomeScreenController.swift in Sources */,
 				6C812DC02574077D0066EE78 /* TabBarController.swift in Sources */,
 				6C812DC7257414210066EE78 /* AddNewBook.swift in Sources */,
+				E82779AD25845F9F00EE187C /* SearchViewController.swift in Sources */,
 				6C812E6F257C677E0066EE78 /* NetworkManager.swift in Sources */,
 				6C812E6A257BFFA60066EE78 /* CartTotalLabel.swift in Sources */,
 				6C812DB825720D0E0066EE78 /* HomeScreenCollectionView.swift in Sources */,
 				6C812E552579B6670066EE78 /* CartViewController.swift in Sources */,
+				E82779AF2584608500EE187C /* SearchTableViewCell.swift in Sources */,
 				4128509F2571A92A00B319C1 /* AppDelegate.swift in Sources */,
 				6C812E75257D913D0066EE78 /* ProductInfoView.swift in Sources */,
 				E8A497962581B4A200F13FF6 /* SuccessViewController.swift in Sources */,

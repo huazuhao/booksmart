@@ -10,6 +10,7 @@ import UIKit
 
 class HomeScreenController: UIViewController {
 
+    let searchControllerOne = UISearchController(searchResultsController: nil)
     var searchButton : UIImageView!
     var homeScreenUITable: UITableView!
     var homeScreenUITableHeight: CGFloat!
@@ -27,6 +28,15 @@ class HomeScreenController: UIViewController {
         
         view.backgroundColor = .lightGray
         homeScreenUITableHeight = view.frame.height*0.6
+        
+        navigationItem.searchController = searchControllerOne
+        searchControllerOne.searchResultsUpdater = self
+        searchControllerOne.hidesNavigationBarDuringPresentation = false
+        searchControllerOne.obscuresBackgroundDuringPresentation = false
+        searchControllerOne.searchBar.placeholder = "Search by ISBN, Title, or Author's Name"
+        searchControllerOne.searchBar.showsCancelButton = true
+        searchControllerOne.searchBar.searchTextField.delegate = self
+        definesPresentationContext = true
         
         //search button
         searchButton = UIImageView()
@@ -100,7 +110,9 @@ class HomeScreenController: UIViewController {
         }
     }
     
-    
+    func filterForSearchText(_  searchText: String) {
+        // Intentionally Left Empty
+    }
     
 
 }
@@ -147,6 +159,23 @@ extension HomeScreenController:ShowProductInfoProtocol{
         let productInfo = ProductInfoViewController(inputBook: inputBook)
         navigationController?.pushViewController(productInfo, animated: true)
     }
+}
     
+extension HomeScreenController: UISearchResultsUpdating {
+        
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchBar = searchController.searchBar
+        filterForSearchText(searchBar.text!)
+    }
+}
+
+extension HomeScreenController: UITextFieldDelegate {
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        let newViewController = SearchViewController(initialText: textField.text)
+        navigationController?.pushViewController(newViewController, animated: true)
+        
+        return true
+    }
 }
