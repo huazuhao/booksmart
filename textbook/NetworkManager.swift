@@ -34,6 +34,22 @@ class NetworkManager {
         }
     }
     
+    static func postBookNoImage(newBookDataNoImage:uploadBookBackEndNoImageStruct){
+        
+        
+        let endpoint = "\(host)/api/books/sell/"
+        
+        AF.request(endpoint,method: .post,parameters: newBookDataNoImage).validate().responseData { (response) in
+            switch response.result {
+            case .success( _):
+                print("successfully uploaded a new book to sell")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+        
+
     
     
     

@@ -95,9 +95,10 @@ class HomeScreenController: UIViewController {
             recentlyAddedFromBackend = books
             for item in recentlyAddedFromBackend{
                 var newItem = item
-                if newItem.image == ""{
-                    newItem.image = "default_book"
-                }
+                print("handle default image")
+//                if newItem.image == ""{
+//                    newItem.image = "default_book"
+//                }
                 self.recentlyAdded.append(newItem)
             }
             

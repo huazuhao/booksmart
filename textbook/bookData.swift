@@ -46,7 +46,7 @@ struct RecentlyAdded: Codable{
 struct Book: Codable{
     
     var id: Int
-    var image: String
+    var image: [BookImage]
     var title: String
     var author: String
     var courseName: String
@@ -57,5 +57,26 @@ struct Book: Codable{
     var createdAt: String
     var updatedAt: String?
     var sellerId: Int
+    
+}
+
+struct BookImage: Codable{
+    
+    var bookId: Int
+    var url:String
+    var createdAt: String
+    
+}
+
+struct uploadBookBackEndNoImageStruct: Codable{
+    
+    var title: String
+    var price: String
+    var sellerId: Int
+    var image: String
+    var author: String
+    var courseName: String
+    var isbn: String
+    var edition: String
     
 }

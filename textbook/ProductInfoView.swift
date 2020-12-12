@@ -258,8 +258,9 @@ class ProductInfoView: UIView {
         
     func configure(inputBookData:Book){
         
+        print("need to config")
         
-        bookImage.image = UIImage(named: inputBookData.image)
+//        bookImage.image = UIImage(named: inputBookData.image)
         bookTitle.text = inputBookData.title
         bookAuthor.text = inputBookData.author
         bookPrice.text = inputBookData.price

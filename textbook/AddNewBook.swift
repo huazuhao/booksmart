@@ -16,17 +16,22 @@ class AddNewBook: UIViewController {
     var bookISBN: UITextField!
     var bookPrice: UITextField!
     var courseUsedFor: UITextField!
-    var courseDescription: UITextView!
-    var courseDescriptionPlaceHolder = "Course Description"
+    var bookEdition: UITextField!
+    //var courseDescription: UITextView!
+    //var courseDescriptionPlaceHolder = "Course Description"
     var photosLabel: UILabel!
     var photoPrompt: UILabel!
     var confirmButton: UIButton!
+    var bookConditionPicker:UIPickerView!
+    var bookConditionPickerData: [String] = [String]()
+    var selectedBookCondition: String!
     
     let sidePadding:CGFloat = 25
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        bookConditionPickerData = ["Brand New","Slightly Used","Moderately Used","Heavily Used"]
         
         self.view.backgroundColor = .white
         
@@ -95,19 +100,39 @@ class AddNewBook: UIViewController {
         courseUsedFor.layer.shadowRadius = 0.0
         view.addSubview(courseUsedFor)
         
-        courseDescription = UITextView()
-        courseDescription.layer.cornerRadius = 20
-        courseDescription.clipsToBounds = true
-        courseDescription.isEditable = true
-        courseDescription.isScrollEnabled = false
-        courseDescription.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
-        courseDescription.textColor = .darkGray
-        courseDescription.font = .systemFont(ofSize: 18)
-        courseDescription.text = courseDescriptionPlaceHolder
-        courseDescription.translatesAutoresizingMaskIntoConstraints = false
-        courseDescription.delegate = self
-        courseDescription.returnKeyType = .done
-        view.addSubview(courseDescription)
+        bookEdition = UITextField()
+        bookEdition.translatesAutoresizingMaskIntoConstraints = false
+        let bookEditionPlaceHolder=NSAttributedString(string: "Edition", attributes:[NSAttributedString.Key.foregroundColor :UIColor.darkGray])
+        bookEdition.textColor = .gray
+        bookEdition.attributedPlaceholder=bookEditionPlaceHolder
+        bookEdition.layer.borderColor = UIColor.black.cgColor
+        bookEdition.layer.backgroundColor = UIColor.white.cgColor
+        bookEdition.layer.borderWidth = 0.0
+        bookEdition.layer.shadowOffset = CGSize(width: 0, height: 1.0)
+        bookEdition.layer.shadowOpacity = 1.0
+        bookEdition.layer.shadowRadius = 0.0
+        view.addSubview(bookEdition)
+        
+        bookConditionPicker = UIPickerView()
+        bookConditionPicker.translatesAutoresizingMaskIntoConstraints = false
+        bookConditionPicker.delegate = self
+        bookConditionPicker.dataSource = self
+        view.addSubview(bookConditionPicker)
+        
+        
+//        courseDescription = UITextView()
+//        courseDescription.layer.cornerRadius = 20
+//        courseDescription.clipsToBounds = true
+//        courseDescription.isEditable = true
+//        courseDescription.isScrollEnabled = false
+//        courseDescription.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+//        courseDescription.textColor = .darkGray
+//        courseDescription.font = .systemFont(ofSize: 18)
+//        courseDescription.text = courseDescriptionPlaceHolder
+//        courseDescription.translatesAutoresizingMaskIntoConstraints = false
+//        courseDescription.delegate = self
+//        courseDescription.returnKeyType = .done
+//        view.addSubview(courseDescription)
         
         photosLabel = UILabel()
         photosLabel.text = "Submit Photos"
@@ -139,7 +164,7 @@ class AddNewBook: UIViewController {
         bookImage.contentMode = .scaleAspectFill
         bookImage.layer.cornerRadius = 30
         bookImage.clipsToBounds = true
-        bookImage.backgroundColor = .lightGray
+        bookImage.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
         bookImage.isUserInteractionEnabled = true
         let singleTapImage: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.tappingImage(recognizer:)))
         singleTapImage.numberOfTapsRequired = 1
@@ -166,31 +191,46 @@ class AddNewBook: UIViewController {
         ])
 
         NSLayoutConstraint.activate([
-            bookISBN.topAnchor.constraint(equalTo: bookAuthor.bottomAnchor, constant: 10),
-            bookISBN.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: sidePadding),
-            bookISBN.widthAnchor.constraint(equalToConstant: (view.frame.width-sidePadding*2)/2),
-            bookISBN.heightAnchor.constraint(equalToConstant: 30)
+            bookEdition.topAnchor.constraint(equalTo: bookAuthor.bottomAnchor, constant: 10),
+            bookEdition.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: sidePadding),
+            bookEdition.widthAnchor.constraint(equalToConstant: (view.frame.width-sidePadding*2)/2),
+            bookEdition.heightAnchor.constraint(equalToConstant: 30)
         ])
 
         NSLayoutConstraint.activate([
             bookPrice.topAnchor.constraint(equalTo: bookAuthor.bottomAnchor, constant: 10),
-            bookPrice.leadingAnchor.constraint(equalTo: bookISBN.trailingAnchor, constant: 5),
+            bookPrice.leadingAnchor.constraint(equalTo: bookEdition.trailingAnchor, constant: 5),
             bookPrice.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -sidePadding),
             bookPrice.heightAnchor.constraint(equalToConstant: 30)
         ])
 
         NSLayoutConstraint.activate([
-            courseUsedFor.topAnchor.constraint(equalTo: bookPrice.bottomAnchor, constant: 60),
+            bookISBN.topAnchor.constraint(equalTo: bookPrice.bottomAnchor, constant: 10),
+            bookISBN.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: sidePadding),
+            bookISBN.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -sidePadding),
+            bookISBN.heightAnchor.constraint(equalToConstant: 30)
+        ])
+        
+        
+        NSLayoutConstraint.activate([
+            courseUsedFor.topAnchor.constraint(equalTo: bookISBN.bottomAnchor, constant: 10),
             courseUsedFor.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: sidePadding),
             courseUsedFor.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -sidePadding),
             courseUsedFor.heightAnchor.constraint(equalToConstant: 30)
         ])
 
+//        NSLayoutConstraint.activate([
+//            courseDescription.topAnchor.constraint(equalTo: courseUsedFor.bottomAnchor, constant: 10),
+//            courseDescription.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: sidePadding),
+//            courseDescription.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -sidePadding),
+//            courseDescription.bottomAnchor.constraint(equalTo: photosLabel.topAnchor, constant: -20)
+//        ])
+        
         NSLayoutConstraint.activate([
-            courseDescription.topAnchor.constraint(equalTo: courseUsedFor.bottomAnchor, constant: 10),
-            courseDescription.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: sidePadding),
-            courseDescription.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -sidePadding),
-            courseDescription.bottomAnchor.constraint(equalTo: photosLabel.topAnchor, constant: -20)
+            bookConditionPicker.topAnchor.constraint(equalTo: courseUsedFor.bottomAnchor, constant: 30),
+            bookConditionPicker.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: sidePadding),
+            bookConditionPicker.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -sidePadding),
+            bookConditionPicker.bottomAnchor.constraint(equalTo: photosLabel.topAnchor, constant: -30)
         ])
 
         NSLayoutConstraint.activate([
@@ -231,6 +271,50 @@ class AddNewBook: UIViewController {
     
     @objc func confirmButtonTapped(){
         print("confirm button tapped. do something")
+        print("there is a fake seller id")
+        let fakeSellerID :Int = 1
+
+        
+        var userInputTitle:String = ""
+        if let title = bookTitle.text{
+            userInputTitle = title
+        }
+        
+        var userInputPrice:String = ""
+        if let price = bookPrice.text{
+            userInputPrice = price
+        }
+        
+        var userInputAuthor:String = ""
+        if let author = bookAuthor.text{
+            userInputAuthor = author
+        }
+        
+        var userInputCondition:String = ""
+        if let condition = selectedBookCondition {
+            userInputCondition = condition
+        }
+
+        var userInputCourseName:String = ""
+        if let courseName = courseUsedFor.text{
+            userInputCourseName = courseName
+        }
+        
+        var userInputISBN:String = ""
+        if let isbn = bookISBN.text{
+            userInputISBN = isbn
+        }
+        
+        var userInputEdition:String = ""
+        if let edition = bookEdition.text{
+            userInputEdition = edition
+        }
+        
+        var uploadBook = uploadBookBackEndNoImageStruct(title: userInputTitle, price: userInputPrice, sellerId: fakeSellerID, image: "", author: userInputAuthor, courseName: userInputCourseName, isbn: userInputISBN, edition: userInputEdition)
+
+        print("sell book data is \(uploadBook)")
+        
+        NetworkManager.postBookNoImage(newBookDataNoImage: uploadBook)
     }
 
     /*
@@ -287,29 +371,52 @@ extension AddNewBook:UIImagePickerControllerDelegate,UINavigationControllerDeleg
     
 }
 
+extension AddNewBook: UIPickerViewDelegate{
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        selectedBookCondition = bookConditionPickerData[row]
+    }
+}
 
-extension AddNewBook : UITextViewDelegate {
-
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == courseDescriptionPlaceHolder{
-            textView.text = ""
-            textView.textColor = UIColor.black
-        }
+extension AddNewBook: UIPickerViewDataSource{
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        // Number of columns of data
+        return 1
     }
     
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text == ""{
-            textView.text = courseDescriptionPlaceHolder
-            textView.textColor = .darkGray
-        }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        // The number of rows of data
+        return bookConditionPickerData.count
     }
     
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n"{
-            textView.resignFirstResponder()
-        }
-        return true
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return bookConditionPickerData[row]
     }
     
     
 }
+
+//extension AddNewBook : UITextViewDelegate {
+//
+//    func textViewDidBeginEditing(_ textView: UITextView) {
+//        if textView.text == courseDescriptionPlaceHolder{
+//            textView.text = ""
+//            textView.textColor = UIColor.black
+//        }
+//    }
+//
+//    func textViewDidEndEditing(_ textView: UITextView) {
+//        if textView.text == ""{
+//            textView.text = courseDescriptionPlaceHolder
+//            textView.textColor = .darkGray
+//        }
+//    }
+//
+//    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+//        if text == "\n"{
+//            textView.resignFirstResponder()
+//        }
+//        return true
+//    }
+//
+//
+//}
