@@ -14,7 +14,6 @@ class SearchViewController: UIViewController {
     var initialText: String
     var resultLabel: UILabel!
     var resultNumberLabel: UILabel!
-    var resultNumber: Int = 0
     var searchTableView: UITableView!
     let searchCellReuseIdentifier = "searchCellReuseIdentifier"
     var filteredBooks: [bookData] = []
@@ -89,7 +88,7 @@ class SearchViewController: UIViewController {
         NSLayoutConstraint.activate([
             resultNumberLabel.leadingAnchor.constraint(equalTo: resultLabel.trailingAnchor),
             resultNumberLabel.bottomAnchor.constraint(equalTo: resultLabel.bottomAnchor),
-            resultNumberLabel.widthAnchor.constraint(equalToConstant: 30),
+           resultNumberLabel.widthAnchor.constraint(equalToConstant: 30),
             resultNumberLabel.heightAnchor.constraint(equalToConstant: 30)
         ])
         
@@ -103,7 +102,6 @@ class SearchViewController: UIViewController {
     
     func filterForSearchText(_  searchText: String) {
         
-        filteredBooks = []
         filteredBooks = books.filter { (book: bookData) -> Bool in
             let value: Bool = book.author.lowercased().contains(searchText.lowercased())
                 || book.title.lowercased().contains(searchText.lowercased())
@@ -111,7 +109,19 @@ class SearchViewController: UIViewController {
         // ISBN not yet added because fake data does not have ISBN attribute; when adding ISBN, just append
         // "|| book.ISBN.contains(searchText)" at the end of the let value:...
         }
+        //searchTableView.reloadData()
+        //reloadTableView()
     }
+    
+    //func reloadTableView() {
+    //    let resultNumber:Int? = filteredBooks.count
+    //    if let result = resultNumber {
+    //        resultNumberLabel.text = "(" + String(result) + ")"
+    //    } else {
+    //        resultNumberLabel.text = "(0)"
+    //    }
+    //searchTableView.reloadData()
+    //}
     
 }
 
