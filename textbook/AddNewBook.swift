@@ -10,6 +10,8 @@ import UIKit
 
 class AddNewBook: UIViewController {
 
+    let pink: UIColor = UIColor(red: 1, green: 0.479, blue: 0.479, alpha: 1)
+    
     var bookImage: UIImageView!
     var bookTitle: UITextField!
     var bookAuthor: UITextField!
@@ -152,10 +154,13 @@ class AddNewBook: UIViewController {
         confirmButton.layer.cornerRadius = 20
         confirmButton.clipsToBounds = true
         confirmButton.setTitle("Confirm To Sell", for: .normal)
-        confirmButton.setTitleColor(.black, for: .normal)
         confirmButton.translatesAutoresizingMaskIntoConstraints = false
-        confirmButton.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
         confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
+        
+        confirmButton.setTitleColor(.white, for: .normal)
+        confirmButton.backgroundColor = pink
+        
+        
         view.addSubview(confirmButton)
         
         bookImage = UIImageView()

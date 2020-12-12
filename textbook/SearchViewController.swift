@@ -53,6 +53,7 @@ class SearchViewController: UIViewController {
         searchTableView.dataSource = self
         searchTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: searchCellReuseIdentifier)
         searchTableView.translatesAutoresizingMaskIntoConstraints = false
+        searchTableView.separatorStyle = .none
         view.addSubview(searchTableView)
         
         setupViews()
