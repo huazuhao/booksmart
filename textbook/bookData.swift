@@ -78,6 +78,7 @@ struct uploadBookBackEndNoImageStruct: Codable{
     var courseName: String
     var isbn: String
     var edition: String
+    var condition: String
     
 }
 

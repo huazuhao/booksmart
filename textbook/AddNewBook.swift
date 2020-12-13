@@ -309,6 +309,7 @@ class AddNewBook: UIViewController {
         var userInputCondition:String = ""
         if let condition = selectedBookCondition {
             userInputCondition = condition
+            print("user input condition is \(userInputCondition)")
         }
 
         var userInputCourseName:String = ""
@@ -326,7 +327,7 @@ class AddNewBook: UIViewController {
             userInputEdition = edition
         }
         
-        let uploadBook = uploadBookBackEndNoImageStruct(title: userInputTitle, price: userInputPrice, sellerId: fakeSellerID, image: "", author: userInputAuthor, courseName: userInputCourseName, isbn: userInputISBN, edition: userInputEdition)
+        let uploadBook = uploadBookBackEndNoImageStruct(title: userInputTitle, price: userInputPrice, sellerId: fakeSellerID, image: "", author: userInputAuthor, courseName: userInputCourseName, isbn: userInputISBN, edition: userInputEdition, condition: userInputCondition)
 
         var returnedBookID:Int?
         NetworkManager.postBookNoImage(newBookDataNoImage: uploadBook){ responseData in

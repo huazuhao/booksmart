@@ -95,10 +95,14 @@ class HomeScreenCollectionViewCell: UICollectionViewCell{
         
         print("need to config in HomeScreenCollectionViewCell")
         
-        //inputbookData.image[0].url
-        
-        //bookImage.image = UIImage(named: inputbookData.image)
-        
+        if inputbookData.image.count == 0 {
+            bookImage.image = UIImage(named: "default_book")
+        }
+        else{
+            inputbookData.image[0].url
+            print("there is an image url")
+        }
+
         bookTitle.text = inputbookData.title
         bookAuthor.text = inputbookData.author
         bookCourse.text = inputbookData.courseName
