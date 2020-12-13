@@ -71,7 +71,11 @@ class SearchViewController: UIViewController {
         resultNumberLabel = UILabel()
         resultNumberLabel.textColor = .black
         resultNumberLabel.font = .systemFont(ofSize: 15)
+<<<<<<< HEAD
         //resultNumberLabel.text = "(" + String(resultNumber) + ")"
+=======
+        resultNumberLabel.text = "(0)"
+>>>>>>> 81561e4fb6c47ad61f54fdf6531080e02da2f45f
         resultNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(resultNumberLabel)
         

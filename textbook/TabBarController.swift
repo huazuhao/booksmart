@@ -45,8 +45,11 @@ class TabBarController: UITabBarController {
         //cart
         let newCartIcon = Util.resizeImage(image: UIImage(named: "cart_icon")!, targetSize: CGSize(width: 28, height: 28))
         let cart = generateNavController(vc: CartViewController(), barTitle: "Cart", pageTitle: "My Shopping Cart", image: newCartIcon)
-
-        viewControllers = [home,addNewBook,cart]
+        
+        //default profile
+        let newProfileIcon = Util.resizeImage(image: UIImage(named: "profile_icon")!, targetSize: CGSize(width: 28, height: 28))
+        let profile = generateNavController(vc: ProfileViewController(), barTitle: "Profile", pageTitle: "", image: newProfileIcon)
+        viewControllers = [home,addNewBook,cart,profile]
 
     }
     
