@@ -80,3 +80,8 @@ struct uploadBookBackEndNoImageStruct: Codable{
     var edition: String
     
 }
+
+struct uploadBookImage: Codable{
+    var imageData: String
+    var bookId: Int
+}

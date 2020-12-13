@@ -42,7 +42,26 @@ class NetworkManager {
         AF.request(endpoint,method: .post,parameters: newBookDataNoImage).validate().responseData { (response) in
             switch response.result {
             case .success( _):
-                print("successfully uploaded a new book to sell")
+                print("successfully uploaded a new book (no image) to sell")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    static func postBookImage(newBookImage:uploadBookImage){
+
+        let parameters: [String: Any] = [
+            "bookId": newBookImage.bookId,
+            "imageData": newBookImage.imageData
+        ]
+        
+        
+        let endpoint = "\(host)/api/upload/"
+        AF.request(endpoint,method: .post,parameters: parameters,encoding: JSONEncoding.default).validate().response { (response) in
+            switch response.result{
+            case.success( _):
+                print("successfully uploaded a book image")
             case .failure(let error):
                 print(error.localizedDescription)
             }

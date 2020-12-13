@@ -274,7 +274,23 @@ class AddNewBook: UIViewController {
         showChooseSourceTypeAlertController()
     }
     
+    func uploadImage(){
+        print("there is a fake book id")
+        let fakeBookID:Int = 1
+        
+        let imageData:NSData = bookImage.image!.pngData()! as NSData
+        let imageStr = imageData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
+
+        let uploadImageData = uploadBookImage(imageData: imageStr, bookId: fakeBookID)
+        
+        NetworkManager.postBookImage(newBookImage: uploadImageData)
+    }
+    
     @objc func confirmButtonTapped(){
+        
+        //first upload image
+        uploadImage()
+        
         print("confirm button tapped. do something")
         print("there is a fake seller id")
         let fakeSellerID :Int = 1
@@ -319,7 +335,7 @@ class AddNewBook: UIViewController {
 
         print("sell book data is \(uploadBook)")
         
-        NetworkManager.postBookNoImage(newBookDataNoImage: uploadBook)
+        //NetworkManager.postBookNoImage(newBookDataNoImage: uploadBook)
     }
 
     /*
