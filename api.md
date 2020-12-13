@@ -83,7 +83,9 @@ Sell a book.
 
 "isbn":"AA10984",
 
-"edition":"9"
+"edition":"9",
+
+"condition":"okay"
 
 }
 ```
@@ -92,9 +94,9 @@ Sell a book.
  ```
   {"success": true, "data": {"id": 2, "image": "", "title": "test2", "author": "DG", "courseName": "CS2112", "isbn":
 
-"AA10984", "edition": "9", "price": "20.9", "available": true, "createdAt": "2020-12-01 00:12:43.374832", "updatedAt":
+"AA10984", "edition": "9", "condition":"okay", "price": "20.9", "available": true, "createdAt": "2020-12-01 00:12:43.
 
-null, "sellerId": 1}}
+374832", "updatedAt": null, "sellerId": 1}}
   ```
 
 ## /api/dev/books/delete-all/
