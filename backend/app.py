@@ -19,7 +19,7 @@ def success_response(data, code=200):
     return json.dumps({"success": True, "data": data}), code
 
 def failure_response(message, code=404):
-    return json.dumps({"success": False, "error": message}), code
+    return json.dumps({"success": False, "error": "why"+message}), code
 
 ######### BOOKS ##########
 @app.route('/api/books/all/')
@@ -37,6 +37,37 @@ def get_book(id):
         return failure_response('book not found')
     data = c.serialize()
     return success_response(data)
+
+# @app.route('/api/books/sell/', methods=["POST"])
+# def create_book():
+#     '''
+#     body:
+#     [required]: title, price, sellerId
+#     [optional]: image, author, courseName, isbn, edition, condition
+#     '''
+#     body = json.loads(request.data)
+#     price = body.get('price')
+
+#     # check necessary fields
+#     if body.get('title') is None or price is None or not (isinstance(price, int) or \
+#         isinstance(price, float)) or body.get('sellerId') is None:
+#         return failure_response('title/price/sellerId is empty or malformed')
+
+#     # check user exists
+#     c = User.query.filter_by(id = body.get('sellerId')).first()
+#     if c is None:
+#         return failure_response('user not found')
+
+#     # create new book
+#     new_book = Book(image=body.get('image',''), title=body.get('title'),\
+#         author=body.get('author',''), courseName=body.get('courseName',''),\
+#             isbn=body.get('isbn',''), edition=body.get('edition',''), condition=body.get('condition',''),\
+#                 price=str(round(price, 2)),sellerId=body.get('sellerId'))
+#     db.session.add(new_book)
+#     db.session.commit()
+#     data = new_book.serialize()
+
+#     return success_response(data, 201)
 
 @app.route('/api/books/sell/', methods=["POST"])
 def create_book():
@@ -59,12 +90,25 @@ def create_book():
         return failure_response('user not found')
 
     # create new book
-    new_book = Book(image=body.get('image',''), title=body.get('title'),\
+    new_book = Book(image='', title=body.get('title'),\
         author=body.get('author',''), courseName=body.get('courseName',''),\
             isbn=body.get('isbn',''), edition=body.get('edition',''), condition=body.get('condition',''),\
                 price=str(round(price, 2)),sellerId=body.get('sellerId'))
     db.session.add(new_book)
     db.session.commit()
+
+    # upload image   
+    imageData = body.get('image')
+    bookId = new_book.id
+
+    # if imageData is None:
+    #     return failure_response('No base64 URL to be found.')
+
+    if imageData != '' and imageData is not None:
+        asset = Asset(imageData=imageData, bookId=bookId)
+        db.session.add(asset)
+        db.session.commit()
+
     data = new_book.serialize()
 
     return success_response(data, 201)
@@ -166,25 +210,25 @@ def clear_users():
     return success_response({})
 
 ###### ASSET #######
-@app.route('/api/upload/', methods=['POST'])
-def upload():
-    body = json.loads(request.data)
-    imageData = body.get('imageData')
-    bookId = body.get('bookId')
+# @app.route('/api/upload/', methods=['POST'])
+# def upload():
+#     body = json.loads(request.data)
+#     imageData = body.get('imageData')
+#     bookId = body.get('bookId')
 
-    # get book
-    book = Book.query.filter_by(id = bookId).first()
-    if book is None:
-        return failure_response('book not found (create the book first!)')
+#     # get book
+#     book = Book.query.filter_by(id = bookId).first()
+#     if book is None:
+#         return failure_response('book not found (create the book first!)')
 
-    if imageData is None:
-        return failure_response('No base64 URL to be found.')
+#     if imageData is None:
+#         return failure_response('No base64 URL to be found.')
 
-    asset = Asset(imageData=imageData, bookId=bookId)
-    db.session.add(asset)
-    db.session.commit()
+#     asset = Asset(imageData=imageData, bookId=bookId)
+#     db.session.add(asset)
+#     db.session.commit()
     
-    return success_response(asset.serialize(), 201)
+#     return success_response(asset.serialize(), 201)
 
 if __name__ == "__main__":
     # port = int(os.environ.get("PORT", 5000))
