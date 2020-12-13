@@ -3,6 +3,7 @@ from flask import Flask
 import json
 from flask import request
 import os
+import users_dao
 
 app = Flask(__name__)
 db_filename = "textbook.db"
@@ -14,6 +15,17 @@ app.config["SQLALCHEMY_ECHO"] = True
 db.init_app(app)
 with app.app_context():
     db.create_all()
+
+def extract_token(request):
+    auth_header = request.headers.get("Authorization")
+    if auth_header is None:
+        return False, json.dumps({"error": "Missing authorization header."})
+    
+    bearer_token = auth_header.replace("Bearer ", "").strip()
+    if bearer_token is None or not bearer_token:
+        return False, json.dumps({"error": "Invalid authorization header."})
+
+    return True, bearer_token 
 
 def success_response(data, code=200):
     return json.dumps({"success": True, "data": data}), code
@@ -84,20 +96,78 @@ def get_user(id):
     data = c.serialize()
     return success_response(data)
 
-@app.route('/api/users/', methods=["POST"])
-def create_user():
-    '''
-    body:
-    [required]: name, email
-    '''
+# @app.route('/api/users/', methods=["POST"])
+# def create_user():
+#     '''
+#     body:
+#     [required]: name, email
+#     '''
+#     body = json.loads(request.data)
+#     if body.get('name') is None or body.get('email') is None:
+#         return failure_response('name or email is empty')
+#     new_user = User(name = body.get('name'), email = body.get('email'))
+#     db.session.add(new_user)
+#     db.session.commit()
+#     data = new_user.serialize()
+#     return success_response(data, 201)
+
+@app.route("/api/register/", methods=["POST"])
+def register_account():
     body = json.loads(request.data)
-    if body.get('name') is None or body.get('email') is None:
-        return failure_response('name or email is empty')
-    new_user = User(name = body.get('name'), email = body.get('email'))
-    db.session.add(new_user)
-    db.session.commit()
-    data = new_user.serialize()
-    return success_response(data, 201)
+    email = body.get("email")
+    password = body.get("password")
+
+    if email is None or password is None:
+        return json.dumps({"error": "Invalid email or password"})
+
+    was_created, user = users_dao.create_user(email, password)
+
+    if not was_created:
+        return json.dumps({"error": "User already exists"})
+
+    return json.dumps({
+        "session_token": user.session_token,
+        "session_expiration": str(user.session_expiration),
+        "update_token": user.update_token
+        })
+
+@app.route("/api/login/", methods=["POST"])
+def login():
+    body = json.loads(request.data)
+    email = body.get("email")
+    password = body.get("password")
+
+    if email is None or password is None:
+        return json.dumps({"error": "Invalid email or password"})
+
+    was_successful, user = users_dao.verify_credentials(email, password)
+
+    if not was_successful:
+        return json.dumps({"error": "Incorrect email or password."})
+
+    return json.dumps({
+        "session_token": user.session_token,
+        "session_expiration": str(user.session_expiration),
+        "update_token": user.update_token
+        })
+
+@app.route("/api/session/", methods=["POST"])
+def update_session():
+    was_successful, update_token = extract_token(request)
+
+    if not was_successful:
+        return update_token
+        
+    try:
+        user = users_dao.renew_session(update_token)
+    except Exception as e:
+        return json.dumps({"error": f"Invalid update token: {str(e)}"})
+
+    return json.dumps({
+        "session_token": user.session_token,
+        "session_expiration": str(user.session_expiration),
+        "update_token": user.update_token
+        })
 
 @app.route('/api/users/<int:id>/cart/add/', methods=["POST"])
 def add_to_cart(id):
