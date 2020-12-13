@@ -115,3 +115,20 @@ struct uploadBookImage: Codable{
     var imageData: String
     var bookId: Int
 }
+
+struct addCartStruct:Codable{
+    var bookId:Int
+}
+
+struct userInfoResponse:Codable{
+    var success: Bool
+    var data:userInfoResponseDataStruct
+}
+
+struct userInfoResponseDataStruct:Codable{
+    var id:Int
+    var email:String
+    var name:String
+    var selling:[Book]
+    var cart:[Book]
+}

@@ -115,7 +115,10 @@ class HomeScreenController: UIViewController {
         }
     }
     
-    private func updateRecentlyAdded(){
+    func updateRecentlyAdded(){
+        
+        print("update recently added")
+        
         var recentlyAddedFromBackend : [Book] = []
         
         NetworkManager.getRecentlyAdded{ books in

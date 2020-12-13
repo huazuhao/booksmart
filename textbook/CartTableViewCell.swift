@@ -13,6 +13,8 @@ class CartTableViewCell: UITableViewCell {
     var textbookImage: UIImageView!
     var textbookTitle: UILabel!
     var textbookPriceLabel: UILabel!
+    var deleteButton : UIImageView!
+    
     let sidePadding:CGFloat = 20
     
     static let cartTableViewCellIdentifier = "cartTableViewCellIdentifier"
@@ -48,6 +50,17 @@ class CartTableViewCell: UITableViewCell {
         textbookPriceLabel.textColor = .black
         contentView.addSubview(textbookPriceLabel)
         
+        //delete button
+        deleteButton = UIImageView()
+        deleteButton.image = UIImage(named: "delete_icon")
+        deleteButton.translatesAutoresizingMaskIntoConstraints = false
+        deleteButton.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+        contentView.addSubview(deleteButton)
+        
+//        var tapDeleteGesture = UITapGestureRecognizer(target: self, action: "tappedImage:")
+//        tapDeleteGesture.delegate = self
+//        deleteButton
+        
         setupConstraints()
     }
     
@@ -74,6 +87,12 @@ class CartTableViewCell: UITableViewCell {
             textbookPriceLabel.widthAnchor.constraint(equalToConstant: contentView.frame.width*0.4)
         ])
         
+        NSLayoutConstraint.activate([
+            deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor),
+            deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            deleteButton.heightAnchor.constraint(equalToConstant: 30),
+            deleteButton.widthAnchor.constraint(equalToConstant: 30)
+        ])
     }
     
     func configure(inputbookData:bookData){

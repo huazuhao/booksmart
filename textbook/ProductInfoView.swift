@@ -26,6 +26,7 @@ class ProductInfoView: UIView {
     var sellerEmail: UILabel!
     var sellerImage: UIImageView!
     var addButton: UIButton!
+    var bookID:Int!
 
     init() {
         super.init(frame: CGRect.zero)
@@ -263,12 +264,23 @@ class ProductInfoView: UIView {
 //        bookImage.image = UIImage(named: inputBookData.image)
         bookTitle.text = inputBookData.title
         bookAuthor.text = inputBookData.author
-        bookPrice.text = String(format: "%.2f", inputBookData.price)
+        //bookPrice.text = String(format: "%.2f", inputBookData.price)
+        bookPrice.text = inputBookData.price
+        bookEdition.text = "Edition is \(inputBookData.edition)"
+        bookISBN.text = inputBookData.isbn
+        bookClass.text = inputBookData.courseName
+        
+        bookID = inputBookData.id
     }
     
     @objc func addButtonTapped()
     {
         //TODO - put books into cart
+        print("there is a fake seller id in productinfoview")
+        let fakeSellerID :Int = 1
+        let postStruct = addCartStruct(bookId: bookID)
+        
+        NetworkManager.addToCart(book: postStruct, currentUserId: fakeSellerID)
     }
 
 }

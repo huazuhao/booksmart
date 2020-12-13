@@ -287,7 +287,7 @@ class AddNewBook: UIViewController {
     }
     
     func uploadBookWithNoImage()->Int?{
-        print("there is a fake seller id")
+        print("there is a fake seller id in add new book")
         let fakeSellerID :Int = 1
 
         

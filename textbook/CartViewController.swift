@@ -17,6 +17,8 @@ class CartViewController: UIViewController {
     var confirmButton: UIButton!
     let sidePadding:CGFloat = 25
     
+    var booksInCart: [Book] = []
+    
     
     //fake data
     let currentCart = [bookData(imageName: "calculus_for_dummies", inputTitle: "Calculus for Dummies", inputAuthor: "Bob Smith", inputCourseName: "Math 101",inputSellType: .sell,inputSellPrice: 100),bookData(imageName: "international_economics", inputTitle: "International Economics", inputAuthor: "Thomas A. Pugel", inputCourseName: "Econ 201",inputSellType: .sell,inputSellPrice: 200),bookData(imageName: "introduction_to_psychology", inputTitle: "Introduction To Psychology", inputAuthor: "John Smith", inputCourseName: "PSY 110",inputSellType: .sell,inputSellPrice: 300)]
@@ -82,8 +84,13 @@ class CartViewController: UIViewController {
         confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
         view.addSubview(confirmButton)
         
-
+        retrieveUserInfo()
         setupConstraints()
+    }
+    
+    override func viewDidAppear(_ animated: Bool){
+        print("inside view did appear")
+        retrieveUserInfo()
     }
     
     func setupConstraints(){
@@ -121,6 +128,35 @@ class CartViewController: UIViewController {
             confirmButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -sidePadding),
             confirmButton.heightAnchor.constraint(equalToConstant: 40)
         ])
+    }
+
+    private func retrieveUserInfo(){
+        
+        print("retrieve user info in cartViewController")
+        print("there is a fake userid inside cartviewcontroller")
+        let fakeSellerID :Int = 1
+        
+        var cartFromBackend : [Book] = []
+        
+        NetworkManager.getUserCart(currentUserId: fakeSellerID){ books in
+            cartFromBackend = books
+            for item in cartFromBackend{
+                var newItem = item
+                print("handle default image")
+    
+                if self.booksInCart.contains(newItem) == false {
+                    print("this is the new item")
+                    print(newItem)
+                    self.booksInCart.append(newItem)
+                }
+            }
+            
+            //reload
+            DispatchQueue.main.async {
+                self.cartTableView.reloadData()
+            }
+        }
+        
     }
     
     @objc func confirmButtonTapped(){

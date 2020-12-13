@@ -109,13 +109,6 @@ extension HomeScreenTableCell:UICollectionViewDelegateFlowLayout{
 
 extension HomeScreenTableCell:UICollectionViewDelegate{
     
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//
-//        let productInfoViewController = ProductInfoViewController()
-//        productInfoViewController.configure(inputbookData: <#T##bookData#>)
-//        navigationController?.pushViewController(redViewController, animated: true)
-//        
-//    }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         newScreenDelegate?.showProductInfoProtocol(inputBook: currentTableData[indexPath.item])
     }

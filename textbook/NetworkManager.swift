@@ -40,7 +40,7 @@ class NetworkManager {
             "title":newBookDataNoImage.title,
             "price":newBookDataNoImage.price,
             "sellerId":newBookDataNoImage.sellerId,
-            "image":"",
+            "image":newBookDataNoImage.image,
             "author":newBookDataNoImage.author,
             "courseName":newBookDataNoImage.courseName,
             "isbn":newBookDataNoImage.isbn,
@@ -82,7 +82,43 @@ class NetworkManager {
             }
         }
     }
+    
+    static func addToCart(book:addCartStruct,currentUserId:Int){
         
+        let parameters:[String:Any] = [
+            "bookId":book.bookId
+        ]
+        
+        let endpoint = "\(host)/api/users/\(currentUserId)/cart/add/"
+        AF.request(endpoint,method:.post,parameters:parameters,encoding: JSONEncoding.default).validate().response{ (response) in
+            switch response.result{
+            case.success( _):
+                print("successfully added the current book to cart")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+     
+    
+    static func getUserCart(currentUserId:Int,completion:@escaping ([Book])->Void){
+        
+        let endpoint = "\(host)/api/users/\(currentUserId)/"
+        
+        AF.request(endpoint,method: .post,encoding: JSONEncoding.default).validate().responseData { (response) in
+            switch response.result {
+            case .success( let data):
+                let jsonDecoder = JSONDecoder()
+                if let responseFromBackEnd = try? jsonDecoder.decode(userInfoResponse.self, from: data) {
+                    // Instructions: Use completion to handle response
+                    completion(responseFromBackEnd.data.cart)
+                }
+                print("successfully retrieved userinfo")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
 
     
     
