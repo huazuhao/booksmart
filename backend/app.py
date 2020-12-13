@@ -43,7 +43,7 @@ def create_book():
     '''
     body:
     [required]: title, price, sellerId
-    [optional]: image, author, courseName, isbn, edition
+    [optional]: image, author, courseName, isbn, edition, condition
     '''
     body = json.loads(request.data)
     price = body.get('price')
@@ -61,8 +61,8 @@ def create_book():
     # create new book
     new_book = Book(image=body.get('image',''), title=body.get('title'),\
         author=body.get('author',''), courseName=body.get('courseName',''),\
-            isbn=body.get('isbn',''), edition=body.get('edition',''), price=str(round(price, 2)),\
-                sellerId=body.get('sellerId'))
+            isbn=body.get('isbn',''), edition=body.get('edition',''), condition=body.get('condition',''),\
+                price=str(round(price, 2)),sellerId=body.get('sellerId'))
     db.session.add(new_book)
     db.session.commit()
     data = new_book.serialize()
