@@ -56,9 +56,8 @@ class NetworkManager {
             "imageData": newBookImage.imageData
         ]
         
-        
         let endpoint = "\(host)/api/upload/"
-        AF.request(endpoint,method: .post,parameters: parameters,encoding: JSONEncoding.default).validate().response { (response) in
+        AF.request(endpoint,method: .post,parameters: parameters,encoding: JSONEncoding.default).validate(statusCode: 200..<600).response { (response) in
             switch response.result{
             case.success( _):
                 print("successfully uploaded a book image")
