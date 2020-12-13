@@ -330,7 +330,10 @@ class AddNewBook: UIViewController {
             userInputEdition = edition
         }
         
-        let uploadBook = uploadBookBackEndNoImageStruct(title: userInputTitle, price: userInputPrice, sellerId: fakeSellerID, image: "", author: userInputAuthor, courseName: userInputCourseName, isbn: userInputISBN, edition: userInputEdition, condition: userInputCondition)
+        let imageData:NSData = bookImage.image!.pngData()! as NSData
+        let imageStr = imageData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
+        
+        let uploadBook = uploadBookBackEndNoImageStruct(title: userInputTitle, price: userInputPrice, sellerId: fakeSellerID, image: imageStr, author: userInputAuthor, courseName: userInputCourseName, isbn: userInputISBN, edition: userInputEdition, condition: userInputCondition)
 
         var returnedBookID:Int?
         NetworkManager.postBookNoImage(newBookDataNoImage: uploadBook){ responseData in

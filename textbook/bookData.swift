@@ -43,7 +43,16 @@ struct RecentlyAdded: Codable{
 }
 
 
-struct Book: Codable{
+struct Book: Codable,Equatable{
+    static func == (lhs: Book, rhs: Book) -> Bool {
+        if lhs.id == rhs.id{
+            return true
+        }
+        else{
+            return false
+        }
+    }
+    
     
     var id: Int
     var image: [BookImage]

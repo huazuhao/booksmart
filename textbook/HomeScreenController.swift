@@ -14,6 +14,8 @@ class HomeScreenController: UIViewController {
     var searchButton : UIImageView!
     var homeScreenUITable: UITableView!
     var homeScreenUITableHeight: CGFloat!
+    var refreshControl = UIRefreshControl()
+    
     
     var recentlyAdded: [Book] = []
     var lowestSellingPrice: [Book] = []
@@ -59,6 +61,10 @@ class HomeScreenController: UIViewController {
         homeScreenUITable.alwaysBounceVertical = false
         homeScreenUITable.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
         view.addSubview(homeScreenUITable)
+        
+        //refresh
+        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+        homeScreenUITable.refreshControl = refreshControl
         
         
         getRecentlyAdded()
@@ -108,6 +114,37 @@ class HomeScreenController: UIViewController {
             }
         }
     }
+    
+    private func updateRecentlyAdded(){
+        var recentlyAddedFromBackend : [Book] = []
+        
+        NetworkManager.getRecentlyAdded{ books in
+            recentlyAddedFromBackend = books
+            for item in recentlyAddedFromBackend{
+                var newItem = item
+                print("handle default image")
+    
+                if self.recentlyAdded.contains(newItem) == false {
+                    print("this is the new item")
+                    print(newItem)
+                    self.recentlyAdded.append(newItem)
+                }
+            }
+            
+            
+            //reload
+            DispatchQueue.main.async {
+                self.homeScreenUITable.reloadData()
+            }
+        }
+    }
+    
+    @objc func refresh(_ sender: AnyObject) {
+       // Code to refresh
+        updateRecentlyAdded()
+        refreshControl.endRefreshing()
+    }
+    
     
     func filterForSearchText(_  searchText: String) {
         // Intentionally Left Empty
