@@ -71,7 +71,7 @@ struct BookImage: Codable{
 struct uploadBookBackEndNoImageStruct: Codable{
     
     var title: String
-    var price: String
+    var price: Double
     var sellerId: Int
     var image: String
     var author: String
@@ -95,7 +95,7 @@ struct uploadBookBackEndNoImageResponseStruct: Codable{
     var courseName: String
     var isbn: String
     var edition: String
-    var price: String
+    var price: Double
     var available: Bool
     var createdAt: String
     var updatedAt: String?

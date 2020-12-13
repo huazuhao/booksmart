@@ -296,9 +296,12 @@ class AddNewBook: UIViewController {
             userInputTitle = title
         }
         
-        var userInputPrice:String = ""
-        if let price = bookPrice.text{
+        var userInputPrice:Double = -1
+        if let price = Double(bookPrice.text!){
             userInputPrice = price
+        }
+        else{
+            print("user input price is not double")
         }
         
         var userInputAuthor:String = ""
@@ -345,14 +348,19 @@ class AddNewBook: UIViewController {
         var bookID:Int?
         bookID = uploadBookWithNoImage()
         
-        if let unwrapped = bookID {
-            print("\(unwrapped) is the book id")
-        } else {
-            print("missing book id.")
+        //reload
+        DispatchQueue.main.async {
+            if let unwrapped = bookID {
+                print("\(unwrapped) is the book id")
+            } else {
+                print("missing book id.")
+            }
         }
+        
+        
 
         //first upload image
-        uploadImage()
+        //uploadImage()
         
         
     }

@@ -263,7 +263,7 @@ class ProductInfoView: UIView {
 //        bookImage.image = UIImage(named: inputBookData.image)
         bookTitle.text = inputBookData.title
         bookAuthor.text = inputBookData.author
-        bookPrice.text = inputBookData.price
+        bookPrice.text = String(format: "%.2f", inputBookData.price)
     }
     
     @objc func addButtonTapped()
