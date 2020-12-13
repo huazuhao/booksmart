@@ -286,12 +286,7 @@ class AddNewBook: UIViewController {
         NetworkManager.postBookImage(newBookImage: uploadImageData)
     }
     
-    @objc func confirmButtonTapped(){
-        
-        //first upload image
-        uploadImage()
-        
-        print("confirm button tapped. do something")
+    func uploadBookWithNoImage()->Int?{
         print("there is a fake seller id")
         let fakeSellerID :Int = 1
 
@@ -331,11 +326,34 @@ class AddNewBook: UIViewController {
             userInputEdition = edition
         }
         
-        var uploadBook = uploadBookBackEndNoImageStruct(title: userInputTitle, price: userInputPrice, sellerId: fakeSellerID, image: "", author: userInputAuthor, courseName: userInputCourseName, isbn: userInputISBN, edition: userInputEdition)
+        let uploadBook = uploadBookBackEndNoImageStruct(title: userInputTitle, price: userInputPrice, sellerId: fakeSellerID, image: "", author: userInputAuthor, courseName: userInputCourseName, isbn: userInputISBN, edition: userInputEdition)
 
-        print("sell book data is \(uploadBook)")
+        var returnedBookID:Int?
+        NetworkManager.postBookNoImage(newBookDataNoImage: uploadBook){ responseData in
+            returnedBookID = responseData.id
+        }
         
-        //NetworkManager.postBookNoImage(newBookDataNoImage: uploadBook)
+        return returnedBookID ?? nil
+    }
+    
+    @objc func confirmButtonTapped(){
+        print("confirm button tapped. do something")
+        
+        
+        
+        var bookID:Int?
+        bookID = uploadBookWithNoImage()
+        
+        if let unwrapped = bookID {
+            print("\(unwrapped) is the book id")
+        } else {
+            print("missing book id.")
+        }
+
+        //first upload image
+        uploadImage()
+        
+        
     }
 
     /*

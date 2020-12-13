@@ -34,14 +34,30 @@ class NetworkManager {
         }
     }
     
-    static func postBookNoImage(newBookDataNoImage:uploadBookBackEndNoImageStruct){
+    static func postBookNoImage(newBookDataNoImage:uploadBookBackEndNoImageStruct,completion:@escaping (uploadBookBackEndNoImageResponseStruct)->Void){
         
+        let parameters: [String:Any] = [
+            "title":newBookDataNoImage.title,
+            "price":newBookDataNoImage.price,
+            "sellerId":newBookDataNoImage.sellerId,
+            "image":"",
+            "author":newBookDataNoImage.author,
+            "courseName":newBookDataNoImage.courseName,
+            "isbn":newBookDataNoImage.isbn,
+            "edition":newBookDataNoImage.edition
+        ]
         
         let endpoint = "\(host)/api/books/sell/"
         
-        AF.request(endpoint,method: .post,parameters: newBookDataNoImage).validate().responseData { (response) in
+        AF.request(endpoint,method: .post,parameters: parameters,encoding: JSONEncoding.default).validate(statusCode: 200..<600).responseData { (response) in
             switch response.result {
-            case .success( _):
+            case .success( let data):
+                let jsonDecoder = JSONDecoder()
+                if let responseFromBackEnd = try? jsonDecoder.decode(uploadBookBackEndNoImageResponse.self, from: data) {
+                    // Instructions: Use completion to handle response
+                    let receivedData = responseFromBackEnd.data
+                    completion(receivedData)
+                }
                 print("successfully uploaded a new book (no image) to sell")
             case .failure(let error):
                 print(error.localizedDescription)
@@ -58,7 +74,7 @@ class NetworkManager {
         
         
         let endpoint = "\(host)/api/upload/"
-        AF.request(endpoint,method: .post,parameters: parameters,encoding: JSONEncoding.default).validate().response { (response) in
+        AF.request(endpoint,method: .post,parameters: parameters,encoding: JSONEncoding.default).validate(statusCode: 200..<600).response { (response) in
             switch response.result{
             case.success( _):
                 print("successfully uploaded a book image")

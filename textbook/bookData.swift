@@ -81,6 +81,26 @@ struct uploadBookBackEndNoImageStruct: Codable{
     
 }
 
+struct uploadBookBackEndNoImageResponse: Codable{
+    var success: Bool
+    var data:uploadBookBackEndNoImageResponseStruct
+}
+
+struct uploadBookBackEndNoImageResponseStruct: Codable{
+    var id: Int
+    var image: String
+    var title: String
+    var author: String
+    var courseName: String
+    var isbn: String
+    var edition: String
+    var price: String
+    var available: Bool
+    var createdAt: String
+    var updatedAt: String?
+    var sellerId: Int
+}
+
 struct uploadBookImage: Codable{
     var imageData: String
     var bookId: Int
