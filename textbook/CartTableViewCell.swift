@@ -8,12 +8,19 @@
 
 import UIKit
 
+protocol deleteFromCart:class {
+    func deleteFromCartAction(bookId:Int)
+}
+
+
 class CartTableViewCell: UITableViewCell {
 
+    var textBookId: Int!
     var textbookImage: UIImageView!
     var textbookTitle: UILabel!
     var textbookPriceLabel: UILabel!
     var deleteButton : UIImageView!
+    weak var delegate:deleteFromCart?
     
     let sidePadding:CGFloat = 20
     
@@ -56,10 +63,9 @@ class CartTableViewCell: UITableViewCell {
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         deleteButton.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
         contentView.addSubview(deleteButton)
-        
-//        var tapDeleteGesture = UITapGestureRecognizer(target: self, action: "tappedImage:")
-//        tapDeleteGesture.delegate = self
-//        deleteButton
+        let tapDeleteGesture = UITapGestureRecognizer(target: self, action: #selector(self.tappingDelete(recognizer:)))
+        tapDeleteGesture.numberOfTapsRequired = 1
+        deleteButton.addGestureRecognizer(tapDeleteGesture)
         
         setupConstraints()
     }
@@ -95,13 +101,25 @@ class CartTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(inputbookData:bookData){
-        textbookImage.image = UIImage(named: inputbookData.bookImageName)
+//    func configure(inputbookData:bookData){
+//        textbookImage.image = UIImage(named: inputbookData.bookImageName)
+//        textbookTitle.text = inputbookData.title
+//        let displayPrice: String = String(format: "%.2f", inputbookData.sellPrice)
+//        textbookPriceLabel.text = displayPrice
+//    }
+    
+    func configure(inputbookData:Book){
+        textBookId = inputbookData.id
         textbookTitle.text = inputbookData.title
-        let displayPrice: String = String(format: "%.2f", inputbookData.sellPrice)
-        textbookPriceLabel.text = displayPrice
+        textbookPriceLabel.text = inputbookData.price
+        
     }
     
+    
+    @objc func tappingDelete(recognizer: UIGestureRecognizer){
+        //delete button tapped
+        delegate?.deleteFromCartAction(bookId: textBookId)
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

@@ -23,9 +23,12 @@ class ProfileViewController: UIViewController {
     var purchasedListingsLabel: UILabel!
     var profileTableView: UITableView!
     var profileTableViewHeight: CGFloat!
-    var currentListings: [bookData] = []
-    var previousPurchase: [bookData] = []
-    var currentPurchase: [bookData] = []
+    var retrievedUserInfo: userInfoResponseDataStruct!
+    
+    
+    var currentListings: [Book] = []
+    //var previousPurchase: [bookData] = []
+    var currentPurchase: [Book] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,9 +44,9 @@ class ProfileViewController: UIViewController {
         let book3 = bookData(imageName: "introduction_to_psychology", inputTitle: "Introduction To Psychology", inputAuthor: "John Smith", inputCourseName: "PSY 110",inputSellType: .sell,inputSellPrice: 300)
         let book4 = bookData(imageName: "introduction_to_c_programming", inputTitle: "Introduction to C++ programming", inputAuthor: "John Doe", inputCourseName: "CS 101",inputSellType: .exchange,inputSellPrice: 0)
         
-        currentListings = [book1,book2,book3,book4]
-        previousPurchase = [book4,book1,book2,book3]
-        currentPurchase = [book3,book4,book1,book2]
+        //currentListings = [book1,book2,book3,book4]
+        //previousPurchase = [book4,book1,book2,book3]
+        //currentPurchase = [book3,book4,book1,book2]
         
         profileTableView = UITableView()
         profileTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -58,9 +61,34 @@ class ProfileViewController: UIViewController {
         profileTableView.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
         view.addSubview(profileTableView)
         
+        retrieveUserInfo()
         setupViews()
         setupContraints()
     }
+    
+    private func retrieveUserInfo(){
+        
+        print("retrieve user info in ProfileViewController")
+        print("there is a fake userid inside ProfileViewController")
+        let fakeSellerID :Int = 1
+        
+        NetworkManager.getUserInfo(currentUserId: fakeSellerID){ responseData in
+            self.retrievedUserInfo = responseData
+            
+            self.currentListings = self.retrievedUserInfo.selling
+            self.currentPurchase = self.retrievedUserInfo.cart
+            
+        }
+        
+        //reload
+        DispatchQueue.main.async {
+            self.profileTableView.reloadData()
+        }
+        
+    }
+    
+    
+    
     
     func setupViews() {
         
@@ -152,12 +180,12 @@ class ProfileViewController: UIViewController {
         ])
         
         // COMMENTED OUT FOR NOW, uncomment when linked to backend
-        //NSLayoutConstraint.activate([
-        //    profileTableView.topAnchor.constraint(equalTo: userLocation.bottomAnchor, constant: 10),
-        //    profileTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-        //    profileTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-        //    profileTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-        //])
+        NSLayoutConstraint.activate([
+            profileTableView.topAnchor.constraint(equalTo: userLocation.bottomAnchor, constant: 10),
+            profileTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            profileTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            profileTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
     }
     
     @objc func editButtonTapped() {
@@ -186,34 +214,28 @@ extension ProfileViewController:UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         // Row 1: Current Listings
-        // Row 2: Previous Puchases
-        // Row 3: Purchased Listings
-        return 3
+        // Row 2: Current in Cart
+        return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: HomeScreenTableCell.homeScreenTableCellIdentifier, for: indexPath) as! HomeScreenTableCell
         
         if indexPath.row == 0{
-            // cell.configure(rowName: "Current Listings", rowData: self.recentlyAdded)
-            // cell.newScreenDelegate = self
+             cell.configure(rowName: "Current Listings", rowData: currentListings)
+             //cell.newScreenDelegate = self
         }
         
         if indexPath.row == 1{
-            // cell.configure(rowName: "Previous Purchases", rowData: self.recentlyAdded)
-            // cell.newScreenDelegate = self
-        }
-        
-        if indexPath.row == 1{
-            // cell.configure(rowName: "Purchased Listings", rowData: self.recentlyAdded)
-            // cell.newScreenDelegate = self
+             cell.configure(rowName: "Current Purchases", rowData: currentPurchase)
+             //cell.newScreenDelegate = self
         }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return profileTableViewHeight*0.9/3 //0.9 serves as padding
+        return profileTableViewHeight*0.9/2 //0.9 serves as padding
     }
     
     

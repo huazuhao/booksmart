@@ -99,7 +99,24 @@ class NetworkManager {
             }
         }
     }
-     
+    
+    static func deleteOneBookFromCart(currentUserId:Int,bookId:Int){
+        
+        let parameters:[String:Any] = [
+            "bookId":bookId
+        ]
+        
+        let endpoint = "\(host)/api/users/\(currentUserId)/cart/remove/"
+        AF.request(endpoint,method:.post,parameters:parameters,encoding: JSONEncoding.default).validate().response{ (response) in
+            switch response.result{
+            case.success( _):
+                print("successfully removed the current book from cart")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+        
+    }
     
     static func getUserCart(currentUserId:Int,completion:@escaping ([Book])->Void){
         
@@ -113,12 +130,33 @@ class NetworkManager {
                     // Instructions: Use completion to handle response
                     completion(responseFromBackEnd.data.cart)
                 }
+                print("successfully retrieved user cart info")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    
+    static func getUserInfo(currentUserId:Int,completion:@escaping (userInfoResponseDataStruct)->Void){
+        
+        let endpoint = "\(host)/api/users/\(currentUserId)/"
+        
+        AF.request(endpoint,method: .post,encoding: JSONEncoding.default).validate().responseData { (response) in
+            switch response.result {
+            case .success( let data):
+                let jsonDecoder = JSONDecoder()
+                if let responseFromBackEnd = try? jsonDecoder.decode(userInfoResponse.self, from: data) {
+                    // Instructions: Use completion to handle response
+                    completion(responseFromBackEnd.data)
+                }
                 print("successfully retrieved userinfo")
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
     }
+    
 
     
     

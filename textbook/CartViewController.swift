@@ -84,13 +84,13 @@ class CartViewController: UIViewController {
         confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
         view.addSubview(confirmButton)
         
-        retrieveUserInfo()
+        retrieveUserCart()
         setupConstraints()
     }
     
     override func viewDidAppear(_ animated: Bool){
         print("inside view did appear")
-        retrieveUserInfo()
+        retrieveUserCart()
     }
     
     func setupConstraints(){
@@ -130,7 +130,7 @@ class CartViewController: UIViewController {
         ])
     }
 
-    private func retrieveUserInfo(){
+    private func retrieveUserCart(){
         
         print("retrieve user info in cartViewController")
         print("there is a fake userid inside cartviewcontroller")
@@ -183,7 +183,8 @@ extension CartViewController:UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currentCart.count
+        //return currentCart.count
+        return booksInCart.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -192,8 +193,10 @@ extension CartViewController:UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CartTableViewCell.cartTableViewCellIdentifier, for: indexPath) as! CartTableViewCell
-        let oneBook = currentCart[indexPath.row]
+        //let oneBook = currentCart[indexPath.row]
+        let oneBook = booksInCart[indexPath.row]
         cell.configure(inputbookData: oneBook)
+        cell.delegate = self
         return cell
     }
     
@@ -213,4 +216,19 @@ extension UIView {
          self.layer.mask = mask
     }
 
+}
+
+extension CartViewController:deleteFromCart{
+    
+    func deleteFromCartAction(bookId: Int) {
+        
+        print("inside CartViewController and there is a fake user id")
+        let fakeSellerID :Int = 1
+        
+        //call network manager to delete the book
+        NetworkManager.deleteOneBookFromCart(currentUserId: fakeSellerID, bookId: bookId)
+        
+        //call retrieve user cart to update cart information
+        retrieveUserCart()
+    }
 }
