@@ -57,6 +57,15 @@ def create_book():
     [required]: title, price, sellerId
     [optional]: image, author, courseName, isbn, edition
     '''
+    was_successful, session_token = extract_token(request)
+
+    if not was_successful:
+        return session_token
+
+    user = users_dao.get_user_by_session_token(session_token)
+    if not user or not user.verify_session_token(session_token):
+        return json.dumps({"error": "Invalid session token."})
+    
     body = json.loads(request.data)
     price = body.get('price')
 
@@ -175,6 +184,15 @@ def add_to_cart(id):
     body:
     [required]: bookId
     '''
+    was_successful, session_token = extract_token(request)
+
+    if not was_successful:
+        return session_token
+
+    user = users_dao.get_user_by_session_token(session_token)
+    if not user or not user.verify_session_token(session_token):
+        return json.dumps({"error": "Invalid session token."})
+    
     body = json.loads(request.data)
     bookId = body.get('bookId')
 
@@ -206,6 +224,15 @@ def remove_from_cart(id):
     body:
     [required]: bookId
     '''
+    was_successful, session_token = extract_token(request)
+
+    if not was_successful:
+        return session_token
+
+    user = users_dao.get_user_by_session_token(session_token)
+    if not user or not user.verify_session_token(session_token):
+        return json.dumps({"error": "Invalid session token."})
+    
     body = json.loads(request.data)
     bookId = body.get('bookId')
 
@@ -238,6 +265,15 @@ def clear_users():
 ###### ASSET #######
 @app.route('/api/upload/', methods=['POST'])
 def upload():
+    was_successful, session_token = extract_token(request)
+
+    if not was_successful:
+        return session_token
+
+    user = users_dao.get_user_by_session_token(session_token)
+    if not user or not user.verify_session_token(session_token):
+        return json.dumps({"error": "Invalid session token."})
+    
     body = json.loads(request.data)
     imageData = body.get('imageData')
     bookId = body.get('bookId')
