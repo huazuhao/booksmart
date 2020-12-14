@@ -37,6 +37,7 @@ class Book(db.Model):
   courseName = db.Column(db.String, nullable = False)
   isbn = db.Column(db.String, nullable = False)
   edition = db.Column(db.String, nullable = False)
+  condition = db.Column(db.String, nullable = False)
   price = db.Column(db.String, nullable = False)
   # sellType = db.Column(db.String, nullable = False)
   available = db.Column(db.Boolean, nullable = False, unique=False, default=True)
@@ -57,6 +58,7 @@ class Book(db.Model):
     self.price = kwargs.get('price')
     # self.sellType = kwargs.get('sellType') # TODO: validate
     self.sellerId = kwargs.get('sellerId')
+    self.condition = kwargs.get('condition')
 
   def serialize(self):
     return {
@@ -70,6 +72,7 @@ class Book(db.Model):
       'price': self.price,
       # 'sellType': self.sellType,
       'available': self.available,
+      'condition': self.condition,
 
       'createdAt': self.createdAt,
       'updatedAt': self.updatedAt,
@@ -103,6 +106,9 @@ class User(db.Model):
       'selling': [b.serialize() for b in self.selling],
       'cart': [b.serialize() for b in self.cart]
     }
+
+  def is_selling(self,book):
+    return book in self.selling
 
     # Used to randomly generate session/update tokens
   def _urlsafe_base_64(self):
