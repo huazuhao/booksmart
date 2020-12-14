@@ -19,6 +19,8 @@ class CartViewController: UIViewController {
     var confirmButton: UIButton!
     let sidePadding:CGFloat = 25
     
+    var totalValue:Double = 0
+    
     var booksInCart: [Book] = []
     
     
@@ -70,7 +72,7 @@ class CartViewController: UIViewController {
         cartTotalLabelRight.layer.cornerRadius = 20
         cartTotalLabelRight.layer.maskedCorners = [.layerMaxXMaxYCorner]
         cartTotalLabelRight.clipsToBounds = true
-        cartTotalLabelRight.text = "$$Total"
+        cartTotalLabelRight.text = "$ 0"
         cartTotalLabelRight.textAlignment = .right
         cartTotalLabelRight.isUserInteractionEnabled = false
         cartTotalLabelRight.font = .systemFont(ofSize: 20)
@@ -151,6 +153,8 @@ class CartViewController: UIViewController {
                     print("this is the new item")
                     print(newItem)
                     self.booksInCart.append(newItem)
+                    self.totalValue += Double(newItem.price)!
+                    self.cartTotalLabelRight.text = String(format: "%.2f", self.totalValue)
                 }
             }
             
@@ -180,6 +184,9 @@ class CartViewController: UIViewController {
                     indexToBeRemoved = index
                 }
             }
+            
+            self.totalValue -= Double(self.booksInCart[indexToBeRemoved].price)!
+            self.cartTotalLabelRight.text = String(format: "%.2f", self.totalValue)
             
             //remove by index
             self.booksInCart.remove(at: indexToBeRemoved)

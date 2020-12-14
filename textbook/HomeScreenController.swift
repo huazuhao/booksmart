@@ -54,10 +54,10 @@ class HomeScreenController: UIViewController {
         homeScreenUITable.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
         view.addSubview(homeScreenUITable)
         
-        //refresh
-        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
-        homeScreenUITable.refreshControl = refreshControl
-        
+//        //refresh
+//        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+//        homeScreenUITable.refreshControl = refreshControl
+//
         
         getRecentlyAdded()
         setupConstraints()
@@ -65,6 +65,9 @@ class HomeScreenController: UIViewController {
         
     }
 
+    override func viewDidAppear(_ animated: Bool){
+        updateRecentlyAdded()
+    }
     
     func setupConstraints(){
 
@@ -127,11 +130,11 @@ class HomeScreenController: UIViewController {
         }
     }
     
-    @objc func refresh(_ sender: AnyObject) {
-       // Code to refresh
-        updateRecentlyAdded()
-        refreshControl.endRefreshing()
-    }
+//    @objc func refresh(_ sender: AnyObject) {
+//       // Code to refresh
+//        updateRecentlyAdded()
+//        refreshControl.endRefreshing()
+//    }
     
     
     func filterForSearchText(_  searchText: String) {
