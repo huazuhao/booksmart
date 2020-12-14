@@ -40,14 +40,15 @@ class NetworkManager {
             "title":newBookDataNoImage.title,
             "price":newBookDataNoImage.price,
             "sellerId":newBookDataNoImage.sellerId,
-            "image":newBookDataNoImage.image,
+            "image":"data:image/png;base64,"+newBookDataNoImage.image,
+            //"image":newBookDataNoImage.image,
             "author":newBookDataNoImage.author,
             "courseName":newBookDataNoImage.courseName,
             "isbn":newBookDataNoImage.isbn,
             "edition":newBookDataNoImage.edition
         ]
         
-        print("inside post book no image \(parameters)")
+        //print("inside post book no image \(parameters)")
         
         let endpoint = "\(host)/api/books/sell/"
         

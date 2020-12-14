@@ -11,7 +11,8 @@ import UIKit
 
 class EncodeDecodeImage {
     func convertImageToBase64String (img: UIImage) -> String {
-        return img.jpegData(compressionQuality: 1)?.base64EncodedString() ?? ""
+        //return img.jpegData(compressionQuality: 1)?.base64EncodedString() ?? ""
+        return img.pngData()?.base64EncodedString() ?? ""
     }
     
     

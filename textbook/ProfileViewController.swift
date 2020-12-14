@@ -80,15 +80,27 @@ class ProfileViewController: UIViewController {
         NetworkManager.getUserInfo(currentUserId: fakeSellerID){ responseData in
             self.retrievedUserInfo = responseData
             
-            self.currentListings = self.retrievedUserInfo.selling
-            self.currentPurchase = self.retrievedUserInfo.cart
+            for newItem in self.retrievedUserInfo.selling{
+                if self.currentListings.contains(newItem) == false {
+                    self.currentListings.append(newItem)
+                }
+            }
             
+            for newItem in self.retrievedUserInfo.cart{
+                if self.currentPurchase.contains(newItem) == false {
+                    self.currentPurchase.append(newItem)
+                }
+            }
+            
+            //reload
+            DispatchQueue.main.async {
+                self.profileTableView.reloadData()
+            }
+
         }
         
-        //reload
-        DispatchQueue.main.async {
-            self.profileTableView.reloadData()
-        }
+        print("currentListings is \(self.currentListings)")
+        print("currentPurchase is \(self.currentPurchase)")
         
     }
     
