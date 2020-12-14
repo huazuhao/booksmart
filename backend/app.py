@@ -1,4 +1,4 @@
-from db import db, Book, User, Asset, book_user_table
+from db import *
 from flask import Flask
 import json
 from flask import request
@@ -62,9 +62,9 @@ def create_book():
     if not was_successful:
         return session_token
 
-    user = users_dao.get_user_by_session_token(session_token)
-    if not user or not user.verify_session_token(session_token):
-        return json.dumps({"error": "Invalid session token."})
+    user = users_dao.get_user_by_update_token(session_token)
+    if not user or not user.verify_update_token(session_token):
+        return json.dumps({"error": "Invalid update token."})
     
     body = json.loads(request.data)
     price = body.get('price')
@@ -78,6 +78,10 @@ def create_book():
     c = User.query.filter_by(id = body.get('sellerId')).first()
     if c is None:
         return failure_response('user not found')
+
+    # check user is the one who logged in
+    if user != c:
+        return failure_response('Id does not match token')
 
     # create new book
     new_book = Book(image=body.get('image',''), title=body.get('title'),\
@@ -125,11 +129,12 @@ def register_account():
     body = json.loads(request.data)
     email = body.get("email")
     password = body.get("password")
+    name = body.get("name")
 
-    if email is None or password is None:
+    if email is None or password is None or name is None:
         return json.dumps({"error": "Invalid email or password"})
 
-    was_created, user = users_dao.create_user(email, password)
+    was_created, user = users_dao.create_user(email, password, name)
 
     if not was_created:
         return json.dumps({"error": "User already exists"})
@@ -189,8 +194,8 @@ def add_to_cart(id):
     if not was_successful:
         return session_token
 
-    user = users_dao.get_user_by_session_token(session_token)
-    if not user or not user.verify_session_token(session_token):
+    user = users_dao.get_user_by_update_token(session_token)
+    if not user or not user.verify_update_token(session_token):
         return json.dumps({"error": "Invalid session token."})
     
     body = json.loads(request.data)
@@ -205,9 +210,13 @@ def add_to_cart(id):
         return failure_response('book not found')
     
     # get user
-    user = User.query.filter_by(id = id).first()
-    if user is None:
+    c = User.query.filter_by(id = id).first()
+    if c is None:
         return failure_response('user not found')
+
+    # check user is the one who logged in
+    if user != c:
+        return failure_response('Id does not match token')
 
     #TODO: not your own book
 
@@ -229,8 +238,8 @@ def remove_from_cart(id):
     if not was_successful:
         return session_token
 
-    user = users_dao.get_user_by_session_token(session_token)
-    if not user or not user.verify_session_token(session_token):
+    user = users_dao.get_user_by_update_token(session_token)
+    if not user or not user.verify_update_token(session_token):
         return json.dumps({"error": "Invalid session token."})
     
     body = json.loads(request.data)
@@ -245,9 +254,13 @@ def remove_from_cart(id):
         return failure_response('book not found')
     
     # get user
-    user = User.query.filter_by(id = id).first()
-    if user is None:
+    c = User.query.filter_by(id = id).first()
+    if c is None:
         return failure_response('user not found')
+
+    # check user is the one who logged in
+    if user != c:
+        return failure_response('Id does not match token')
 
     # remove from cart
     if book in user.cart:
@@ -265,15 +278,6 @@ def clear_users():
 ###### ASSET #######
 @app.route('/api/upload/', methods=['POST'])
 def upload():
-    was_successful, session_token = extract_token(request)
-
-    if not was_successful:
-        return session_token
-
-    user = users_dao.get_user_by_session_token(session_token)
-    if not user or not user.verify_session_token(session_token):
-        return json.dumps({"error": "Invalid session token."})
-    
     body = json.loads(request.data)
     imageData = body.get('imageData')
     bookId = body.get('bookId')
