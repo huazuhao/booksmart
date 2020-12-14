@@ -105,24 +105,24 @@ class User(db.Model):
     }
 
     # Used to randomly generate session/update tokens
-    def _urlsafe_base_64(self):
-        return hashlib.sha1(os.urandom(64)).hexdigest()
+  def _urlsafe_base_64(self):
+      return hashlib.sha1(os.urandom(64)).hexdigest()
 
-    # Generates new tokens, and resets expiration time
-    def renew_session(self):
-        self.session_token = self._urlsafe_base_64()
-        self.session_expiration = datetime.datetime.now() + datetime.timedelta(days=1)
-        self.update_token = self._urlsafe_base_64()
+  # Generates new tokens, and resets expiration time
+  def renew_session(self):
+      self.session_token = self._urlsafe_base_64()
+      self.session_expiration = datetime.datetime.now() + datetime.timedelta(days=1)
+      self.update_token = self._urlsafe_base_64()
 
-    def verify_password(self, password):
-        return bcrypt.checkpw(password.encode("utf8"), self.password_digest)
+  def verify_password(self, password):
+      return bcrypt.checkpw(password.encode("utf8"), self.password_digest)
 
     # Checks if session token is valid and hasn't expired
-    def verify_session_token(self, session_token):
-        return session_token == self.session_token and datetime.datetime.now() < self.session_expiration
+  def verify_session_token(self, session_token):
+      return session_token == self.session_token and datetime.datetime.now() < self.session_expiration
 
-    def verify_update_token(self, update_token):
-        return update_token == self.update_token
+  def verify_update_token(self, update_token):
+      return update_token == self.update_token
 
 class Asset(db.Model):
   __tablename__ = 'asset'
