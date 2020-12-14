@@ -286,7 +286,11 @@ class AddNewBook: UIViewController {
         NetworkManager.postBookImage(newBookImage: uploadImageData)
     }
     
-    func uploadBookWithNoImage()->Int?{
+    func uploadBookWithNoImage(){
+        
+        var canUpload = true
+        
+        
         print("there is a fake seller id in add new book")
         let fakeSellerID :Int = 1
 
@@ -295,76 +299,96 @@ class AddNewBook: UIViewController {
         if let title = bookTitle.text{
             userInputTitle = title
         }
-        
-        var userInputPrice:Double = -1
-        if let price = Double(bookPrice.text!){
-            userInputPrice = price
-        }
-        else{
-            print("user input price is not double")
+        if (userInputTitle == "") {
+            let alert = UIAlertController(title: "Alert", message: "Please provide a book title", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            canUpload = false
         }
         
         var userInputAuthor:String = ""
         if let author = bookAuthor.text{
             userInputAuthor = author
         }
-        
-        var userInputCondition:String = ""
-        if let condition = selectedBookCondition {
-            userInputCondition = condition
-            print("user input condition is \(userInputCondition)")
-        }
-
-        var userInputCourseName:String = ""
-        if let courseName = courseUsedFor.text{
-            userInputCourseName = courseName
-        }
-        
-        var userInputISBN:String = ""
-        if let isbn = bookISBN.text{
-            userInputISBN = isbn
+        if (userInputAuthor == "") {
+            let alert = UIAlertController(title: "Alert", message: "Please provide the author(s) of the book", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            canUpload = false
         }
         
         var userInputEdition:String = ""
         if let edition = bookEdition.text{
             userInputEdition = edition
         }
+        if (userInputEdition == "") {
+            let alert = UIAlertController(title: "Alert", message: "Please provide a book edition", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            canUpload = false
+        }
+        
+        var userInputPrice:Double = -1
+        if let price = Double(bookPrice.text!){
+            userInputPrice = price
+        }
+        else{
+            let alert = UIAlertController(title: "Alert", message: "Please provide a valid price", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            canUpload = false
+        }
+        
+        var userInputCourseName:String = ""
+        if let courseName = courseUsedFor.text{
+            userInputCourseName = courseName
+        }
+        if (userInputCourseName == "") {
+            let alert = UIAlertController(title: "Alert", message: "Please enter course used for", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            canUpload = false
+        }
+        
+        
+        var userInputCondition:String = ""
+        if let condition = selectedBookCondition {
+            userInputCondition = condition
+        }
+        if (userInputCondition == "") {
+            let alert = UIAlertController(title: "Alert", message: "Please select a book condition", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            canUpload = false
+        }
+
+        
+        var userInputISBN:String = ""
+        if let isbn = bookISBN.text{
+            userInputISBN = isbn
+        }
+        
         
         let imageData:NSData = bookImage.image!.pngData()! as NSData
         let imageStr = imageData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
         
-        let uploadBook = uploadBookBackEndNoImageStruct(title: userInputTitle, price: userInputPrice, sellerId: fakeSellerID, image: imageStr, author: userInputAuthor, courseName: userInputCourseName, isbn: userInputISBN, edition: userInputEdition, condition: userInputCondition)
-
-        var returnedBookID:Int?
-        NetworkManager.postBookNoImage(newBookDataNoImage: uploadBook){ responseData in
-            returnedBookID = responseData.id
+        
+        if canUpload {
+            let uploadBook = uploadBookBackEndNoImageStruct(title: userInputTitle, price: userInputPrice, sellerId: fakeSellerID, image: imageStr, author: userInputAuthor, courseName: userInputCourseName, isbn: userInputISBN, edition: userInputEdition, condition: userInputCondition)
+        
+            
+            var returnedBookID:Int?
+            NetworkManager.postBookNoImage(newBookDataNoImage: uploadBook){ responseData in
+                returnedBookID = responseData.id
+            }
         }
         
-        return returnedBookID ?? nil
     }
     
     @objc func confirmButtonTapped(){
         print("confirm button tapped. do something")
-        
-        
-        
-        var bookID:Int?
-        bookID = uploadBookWithNoImage()
-        
-        //reload
-        DispatchQueue.main.async {
-            if let unwrapped = bookID {
-                print("\(unwrapped) is the book id")
-            } else {
-                print("missing book id.")
-            }
-        }
-        
-        
 
-        //first upload image
-        //uploadImage()
-        
+        uploadBookWithNoImage()
         
     }
 

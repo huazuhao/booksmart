@@ -10,6 +10,8 @@ import UIKit
 
 class CartViewController: UIViewController {
     
+    let pink: UIColor = UIColor(red: 1, green: 0.479, blue: 0.479, alpha: 1)
+    
     var cartTableView: UITableView!
     var cartTotalLabelLeft: LeftLabel!
     var cartTotalLabelRight: RightLabel!
@@ -42,6 +44,7 @@ class CartViewController: UIViewController {
         cartTableView.showsVerticalScrollIndicator = false
         cartTableView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0))
         cartTableView.bounces = false
+        cartTableView.separatorStyle = .none
         view.addSubview(cartTableView)
         
         blackLine = UILabel()
@@ -77,10 +80,10 @@ class CartViewController: UIViewController {
         confirmButton.layer.cornerRadius = 20
         confirmButton.clipsToBounds = true
         confirmButton.setTitle("Confirm Purchase", for: .normal)
-        confirmButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
-        confirmButton.setTitleColor(.black, for: .normal)
+        //confirmButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        confirmButton.setTitleColor(.white, for: .normal)
         confirmButton.translatesAutoresizingMaskIntoConstraints = false
-        confirmButton.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+        confirmButton.backgroundColor = pink
         confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
         view.addSubview(confirmButton)
         
