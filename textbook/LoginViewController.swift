@@ -38,6 +38,7 @@ class LoginViewController: UIViewController {
         
         navigationController?.navigationBar.isHidden = true
         view.layer.backgroundColor = yellow
+        navigationController?.navigationBar.isHidden = true
         
         setupViews()
         setupConstraints()

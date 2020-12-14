@@ -33,7 +33,6 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         
         self.view.backgroundColor = .white
-        self.title = "Home"
         
         //fake data
         books = [bookData(imageName: "calculus_for_dummies", inputTitle: "Calculus for Dummies", inputAuthor: "Bob Smith", inputCourseName: "Math 101",inputSellType: .sell,inputSellPrice: 100),bookData(imageName: "international_economics", inputTitle: "International Economics", inputAuthor: "Thomas A. Pugel", inputCourseName: "Econ 201",inputSellType: .sell,inputSellPrice: 200),bookData(imageName: "introduction_to_psychology", inputTitle: "Introduction To Psychology", inputAuthor: "John Smith", inputCourseName: "PSY 110",inputSellType: .sell,inputSellPrice: 300),bookData(imageName: "introduction_to_c_programming", inputTitle: "Introduction to C++ programming", inputAuthor: "John Doe", inputCourseName: "CS 101",inputSellType: .exchange,inputSellPrice: 0),bookData(imageName: "NLP_the_essential_guide", inputTitle: "NLP the Essential Guide", inputAuthor: "Tess Johnson", inputCourseName: "CS 401",inputSellType: .exchange,inputSellPrice: 0)]
@@ -71,8 +70,7 @@ class SearchViewController: UIViewController {
         resultNumberLabel = UILabel()
         resultNumberLabel.textColor = .black
         resultNumberLabel.font = .systemFont(ofSize: 15)
-        //resultNumberLabel.text = "(" + String(resultNumber) + ")"
-        resultNumberLabel.text = "(0)"
+        resultNumberLabel.text = "(" + String(filteredBooks.count) + ")"
         resultNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(resultNumberLabel)
         
@@ -111,19 +109,17 @@ class SearchViewController: UIViewController {
         // ISBN not yet added because fake data does not have ISBN attribute; when adding ISBN, just append
         // "|| book.ISBN.contains(searchText)" at the end of the let value:...
         }
-        //searchTableView.reloadData()
-        //reloadTableView()
+        reloadTableView()
     }
     
-    //func reloadTableView() {
-    //    let resultNumber:Int? = filteredBooks.count
-    //    if let result = resultNumber {
-    //        resultNumberLabel.text = "(" + String(result) + ")"
-    //    } else {
-    //        resultNumberLabel.text = "(0)"
-    //    }
-    //searchTableView.reloadData()
-    //}
+    func reloadTableView() {
+        if let resultLabel = resultNumberLabel {
+            resultLabel.text = "(" + String(filteredBooks.count) + ")"
+        }
+        if let tableView = searchTableView {
+            tableView.reloadData()
+        }
+    }
     
 }
 
