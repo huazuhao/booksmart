@@ -162,8 +162,69 @@ class NetworkManager {
         }
     }
     
+    static func registerUser(email: String, name: String, password: String, completion: @escaping (accountDetails) -> Void, errorCompletion: @escaping (String) -> Void) {
+        
+        let parameters: [String: Any] = [
+            "email":email,
+            "name": name,
+            "password": password
+        ]
+        
+        let endpoint = "http://0.0.0.0:5000/api/register/"
+        
+        AF.request(endpoint, method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseData { (response) in
+            switch response.result {
+            case .success(let data):
+                if let registerResponse = try? JSONDecoder().decode(accountDetails.self, from: data) {
+                    let registerDetails = registerResponse
+                    completion(registerDetails)
+                } else {
+                    if let errorResponse = try? JSONDecoder().decode(accountError.self, from: data) {
+                        let errorMessage = errorResponse.error
+                        errorCompletion(errorMessage)
+                    } else {
+                        print("Error")
+                    }
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    static func loginUser(email: String, password: String, completion: @escaping (accountDetails) -> Void, errorCompletion: @escaping (String) -> Void) {
+        
+        let parameters: [String: Any] = [
+            "email":email,
+            "password": password
+        ]
+        
+        let endpoint = "http://0.0.0.0:5000/api/login/"
+        
+        AF.request(endpoint, method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseData { (response) in
+            switch response.result {
+            case .success(let data):
+                if let loginResponse = try? JSONDecoder().decode(accountDetails.self, from: data) {
+                    let loginDetails = loginResponse
+                    completion(loginDetails)
+                } else {
+                    if let errorResponse = try? JSONDecoder().decode(accountError.self, from: data) {
+                        let errorMessage = errorResponse.error
+                        errorCompletion(errorMessage)
+                    } else {
+                        print("Error")
+                    }
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
 
     
     
+
+    
     
 }
+

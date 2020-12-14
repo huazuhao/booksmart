@@ -32,6 +32,8 @@ class LoginViewController: UIViewController {
     var loginTab: UIButton!
     var loginButton: UIButton!
     
+    var currentUser: User!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -395,12 +397,35 @@ class LoginViewController: UIViewController {
     }
     
     @objc func registerButtonTapped() {
-        // implement registration later
+        let email = registerEmail.text
+        let name = registerFName.text + " " + registerLName.text
+        let password = registerPassword.text
+        
+        NetworkManager.registerUser(email: email, name: name, password: password, completion: { (accountDetails) in
+            self.currentUser = User(session_token: accountDetails.session_token, session_expiration: accountDetails.session_expiration, update_token: accountDetails.update_token)
+        }) { (errorMessage) in
+            self.createAlert(messsage: errorMessage)
+        }
     }
     
     @objc func loginButtonTapped() {
-        // implement login later, for now it pushes the main page onto navigation controller
-        navigationController?.pushViewController(TabBarController(), animated: true)
+        let email = loginEmail.text
+        let password = loginPassword.text
+        
+        NetworkManager.loginUser(email: email, password: password, completion: { (accountDetails) in
+            self.currentUser = User(session_token: accountDetails.session_token, session_expiration: accountDetails.session_expiration, update_token: accountDetails.update_token)
+            self.navigationController?.pushViewController(TabBarController(), animated: true)
+        }) { (errorMessage) in
+            self.createAlert(message: errorMessage)
+        }
+    }
+    
+    func createAlert(message: String) {
+        let alert = UIAlertController(title: "Alert!", message: message, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        present(alert, animated: true, completion: nil)
     }
     
 }
