@@ -47,6 +47,8 @@ class NetworkManager {
             "edition":newBookDataNoImage.edition
         ]
         
+        print("inside post book no image \(parameters)")
+        
         let endpoint = "\(host)/api/books/sell/"
         
         AF.request(endpoint,method: .post,parameters: parameters,encoding: JSONEncoding.default).validate(statusCode: 200..<600).responseData { (response) in
@@ -122,7 +124,7 @@ class NetworkManager {
         
         let endpoint = "\(host)/api/users/\(currentUserId)/"
         
-        AF.request(endpoint,method: .post,encoding: JSONEncoding.default).validate().responseData { (response) in
+        AF.request(endpoint,method: .get,encoding: JSONEncoding.default).validate().responseData { (response) in
             switch response.result {
             case .success( let data):
                 let jsonDecoder = JSONDecoder()
@@ -142,7 +144,7 @@ class NetworkManager {
         
         let endpoint = "\(host)/api/users/\(currentUserId)/"
         
-        AF.request(endpoint,method: .post,encoding: JSONEncoding.default).validate().responseData { (response) in
+        AF.request(endpoint,method: .get,encoding: JSONEncoding.default).validate().responseData { (response) in
             switch response.result {
             case .success( let data):
                 let jsonDecoder = JSONDecoder()

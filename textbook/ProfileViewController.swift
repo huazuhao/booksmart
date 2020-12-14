@@ -66,6 +66,11 @@ class ProfileViewController: UIViewController {
         setupContraints()
     }
     
+    override func viewDidAppear(_ animated: Bool){
+        print("inside view did appear from profile view controller")
+        retrieveUserInfo()
+    }
+    
     private func retrieveUserInfo(){
         
         print("retrieve user info in ProfileViewController")
