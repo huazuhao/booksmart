@@ -27,6 +27,7 @@ class ProductInfoView: UIView {
     var sellerImage: UIImageView!
     var addButton: UIButton!
     var bookID:Int!
+    weak var delegate: dismissProductInfoProtocol?
 
     init() {
         super.init(frame: CGRect.zero)
@@ -261,7 +262,7 @@ class ProductInfoView: UIView {
         
         print("need to config")
         
-//        bookImage.image = UIImage(named: inputBookData.image)
+//      bookImage.image = UIImage(named: inputBookData.image)
         bookTitle.text = inputBookData.title
         bookAuthor.text = inputBookData.author
         //bookPrice.text = String(format: "%.2f", inputBookData.price)
@@ -281,6 +282,7 @@ class ProductInfoView: UIView {
         let postStruct = addCartStruct(bookId: bookID)
         
         NetworkManager.addToCart(book: postStruct, currentUserId: fakeSellerID)
+        delegate?.dismissProductInfo()
     }
 
 }

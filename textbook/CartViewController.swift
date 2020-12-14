@@ -159,6 +159,40 @@ class CartViewController: UIViewController {
         
     }
     
+    private func updateCartAfterDelete(){
+        
+        print("update cart after delete")
+        print("there is a fake userid")
+        let fakeSellerID :Int = 1
+        
+        var cartFromBackend : [Book] = []
+        var indexToBeRemoved : Int = 0
+        
+        NetworkManager.getUserCart(currentUserId: fakeSellerID){ books in
+            cartFromBackend = books
+
+            //find the index that needs to be removed
+            for (index,element) in self.booksInCart.enumerated(){
+                if cartFromBackend.contains(element) == false{
+                    indexToBeRemoved = index
+                }
+            }
+            
+            //remove by index
+            self.booksInCart.remove(at: indexToBeRemoved)
+            
+            //reload
+            DispatchQueue.main.async {
+                self.cartTableView.reloadData()
+            }
+        }
+        
+        
+        
+        
+    }
+    
+    
     @objc func confirmButtonTapped(){
         let newViewController = SuccessViewController()
         navigationController?.pushViewController(newViewController, animated: true)
@@ -229,6 +263,8 @@ extension CartViewController:deleteFromCart{
         NetworkManager.deleteOneBookFromCart(currentUserId: fakeSellerID, bookId: bookId)
         
         //call retrieve user cart to update cart information
-        retrieveUserCart()
+        updateCartAfterDelete()
+        
+        
     }
 }

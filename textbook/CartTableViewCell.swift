@@ -19,7 +19,7 @@ class CartTableViewCell: UITableViewCell {
     var textbookImage: UIImageView!
     var textbookTitle: UILabel!
     var textbookPriceLabel: UILabel!
-    var deleteButton : UIImageView!
+    var deleteButton : UIButton!
     weak var delegate:deleteFromCart?
     
     let sidePadding:CGFloat = 20
@@ -58,14 +58,21 @@ class CartTableViewCell: UITableViewCell {
         contentView.addSubview(textbookPriceLabel)
         
         //delete button
-        deleteButton = UIImageView()
-        deleteButton.image = UIImage(named: "delete_icon")
+//        deleteButton = UIImageView()
+//        deleteButton.image = UIImage(named: "delete_icon")
+//        deleteButton.translatesAutoresizingMaskIntoConstraints = false
+//        deleteButton.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+//        contentView.addSubview(deleteButton)
+//        let tapDeleteGesture = UITapGestureRecognizer(target: self, action: #selector(self.tappingDelete(recognizer:)))
+//        tapDeleteGesture.numberOfTapsRequired = 1
+//        deleteButton.addGestureRecognizer(tapDeleteGesture)
+        
+        deleteButton = UIButton()
+        deleteButton.setImage(UIImage(named: "delete_icon"), for: .normal)
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         deleteButton.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+        deleteButton.addTarget(self, action: #selector(tappingDelete), for: .touchUpInside)
         contentView.addSubview(deleteButton)
-        let tapDeleteGesture = UITapGestureRecognizer(target: self, action: #selector(self.tappingDelete(recognizer:)))
-        tapDeleteGesture.numberOfTapsRequired = 1
-        deleteButton.addGestureRecognizer(tapDeleteGesture)
         
         setupConstraints()
     }
@@ -96,8 +103,8 @@ class CartTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor),
             deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            deleteButton.heightAnchor.constraint(equalToConstant: 30),
-            deleteButton.widthAnchor.constraint(equalToConstant: 30)
+            deleteButton.heightAnchor.constraint(equalToConstant: 20),
+            deleteButton.widthAnchor.constraint(equalToConstant: 20)
         ])
     }
     
@@ -116,8 +123,9 @@ class CartTableViewCell: UITableViewCell {
     }
     
     
-    @objc func tappingDelete(recognizer: UIGestureRecognizer){
+    @objc func tappingDelete(){
         //delete button tapped
+        print("just pressed the delete button")
         delegate?.deleteFromCartAction(bookId: textBookId)
     }
     

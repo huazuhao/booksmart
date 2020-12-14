@@ -109,8 +109,10 @@ class NetworkManager {
             "bookId":bookId
         ]
         
+        print("network manager delete book and the parameter is \(parameters)")
+        
         let endpoint = "\(host)/api/users/\(currentUserId)/cart/remove/"
-        AF.request(endpoint,method:.post,parameters:parameters,encoding: JSONEncoding.default).validate().response{ (response) in
+        AF.request(endpoint,method:.delete,parameters:parameters,encoding: JSONEncoding.default).validate().response{ (response) in
             switch response.result{
             case.success( _):
                 print("successfully removed the current book from cart")

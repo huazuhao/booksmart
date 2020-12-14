@@ -80,17 +80,48 @@ class ProfileViewController: UIViewController {
         NetworkManager.getUserInfo(currentUserId: fakeSellerID){ responseData in
             self.retrievedUserInfo = responseData
             
-            for newItem in self.retrievedUserInfo.selling{
-                if self.currentListings.contains(newItem) == false {
-                    self.currentListings.append(newItem)
+            
+            //add a book to current listing
+            if self.retrievedUserInfo.selling.count>self.currentListings.count{
+                for newItem in self.retrievedUserInfo.selling{
+                    if self.currentListings.contains(newItem) == false {
+                        self.currentListings.append(newItem)
+                    }
+                }
+            }
+            //add a book to current purchases
+            if self.retrievedUserInfo.cart.count>self.currentPurchase.count{
+                for newItem in self.retrievedUserInfo.cart{
+                    if self.currentPurchase.contains(newItem) == false {
+                        self.currentPurchase.append(newItem)
+                    }
+                }
+            }
+            //remove a book from current listing
+            if self.retrievedUserInfo.selling.count<self.currentListings.count{
+                var indicesToBeRemoved : [Int] = []
+                for (index,element) in self.currentListings.enumerated(){
+                    if self.retrievedUserInfo.selling.contains(element) == false {
+                        indicesToBeRemoved.append(index)
+                    }
+                }
+                for index in indicesToBeRemoved{
+                    self.currentListings.remove(at: index)
+                }
+            }
+            //remove a book from current purchases
+            if self.retrievedUserInfo.cart.count<self.currentPurchase.count{
+                var indicesToBeRemoved : [Int] = []
+                for (index,element) in self.currentPurchase.enumerated(){
+                    if self.retrievedUserInfo.cart.contains(element) == false {
+                        indicesToBeRemoved.append(index)
+                    }
+                }
+                for index in indicesToBeRemoved{
+                    self.currentPurchase.remove(at: index)
                 }
             }
             
-            for newItem in self.retrievedUserInfo.cart{
-                if self.currentPurchase.contains(newItem) == false {
-                    self.currentPurchase.append(newItem)
-                }
-            }
             
             //reload
             DispatchQueue.main.async {

@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol dismissProductInfoProtocol:class {
+    func dismissProductInfo()
+}
+
+
+
 class ProductInfoViewController: UIViewController {
 
     private let productInfoView = ProductInfoView()
@@ -16,6 +22,7 @@ class ProductInfoViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         productInfoView.configure(inputBookData: inputBook)
+        productInfoView.delegate = self
         
         view = productInfoView
         
@@ -26,4 +33,13 @@ class ProductInfoViewController: UIViewController {
     }
     
 
+}
+
+extension ProductInfoViewController:dismissProductInfoProtocol{
+    func dismissProductInfo() {
+        print("call the dismiss protocol")
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
 }

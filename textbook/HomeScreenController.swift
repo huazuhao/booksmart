@@ -45,7 +45,7 @@ class HomeScreenController: UIViewController {
         searchButton.image = UIImage(named: "search_icon")
         searchButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(searchButton)
-        
+
         
         //UITableView
         //Initialize tableView
@@ -82,7 +82,7 @@ class HomeScreenController: UIViewController {
             searchButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
             searchButton.heightAnchor.constraint(equalToConstant: 20)
         ])
-        
+
         NSLayoutConstraint.activate([
             homeScreenUITable.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             homeScreenUITable.leadingAnchor.constraint(equalTo: view.leadingAnchor),
