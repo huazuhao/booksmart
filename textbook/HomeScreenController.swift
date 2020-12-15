@@ -59,14 +59,14 @@ class HomeScreenController: UIViewController {
 //        homeScreenUITable.refreshControl = refreshControl
 //
         
-        getRecentlyAdded()
+        getAll()
         setupConstraints()
         
         
     }
 
     override func viewDidAppear(_ animated: Bool){
-        updateRecentlyAdded()
+        updateAll()
     }
     
     func setupConstraints(){
@@ -82,20 +82,19 @@ class HomeScreenController: UIViewController {
     }
     
     
-    private func getRecentlyAdded(){
-        var recentlyAddedFromBackend : [Book] = []
+    private func getAll(){
+        var allFromBackend : [Book] = []
         
-        NetworkManager.getRecentlyAdded{ books in
-            recentlyAddedFromBackend = books
-            for item in recentlyAddedFromBackend{
+        NetworkManager.getAll{ books in
+            allFromBackend = books
+            for item in allFromBackend{
                 var newItem = item
                 print("handle default image")
                 
+                self.lowestSellingPrice.append(newItem)
                 self.recentlyAdded.append(newItem)
             }
-            
-            print(self.recentlyAdded)
-            
+
             //reload
             DispatchQueue.main.async {
                 self.homeScreenUITable.reloadData()
@@ -103,15 +102,15 @@ class HomeScreenController: UIViewController {
         }
     }
     
-    func updateRecentlyAdded(){
+    func updateAll(){
         
         print("update recently added")
         
-        var recentlyAddedFromBackend : [Book] = []
+        var allFromBackend : [Book] = []
         
-        NetworkManager.getRecentlyAdded{ books in
-            recentlyAddedFromBackend = books
-            for item in recentlyAddedFromBackend{
+        NetworkManager.getAll{ books in
+            allFromBackend = books
+            for item in allFromBackend{
                 var newItem = item
                 print("handle default image")
     
@@ -120,8 +119,15 @@ class HomeScreenController: UIViewController {
                     print(newItem)
                     self.recentlyAdded.append(newItem)
                 }
+                
+                if self.lowestSellingPrice.contains(newItem) == false {
+                    self.lowestSellingPrice.append(newItem)
+                }
+                
             }
             
+            self.recentlyAdded.sorted(by: { $0.createdAt > $1.createdAt })
+            self.recentlyAdded.sorted(by: { $0.price < $1.price })
             
             //reload
             DispatchQueue.main.async {

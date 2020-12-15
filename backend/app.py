@@ -25,7 +25,7 @@ def extract_token(request):
     if bearer_token is None or not bearer_token:
         return False, json.dumps({"error": "Invalid authorization header."})
 
-    return True, bearer_token 
+    return True, bearer_token
 
 def success_response(data, code=200):
     return json.dumps({"success": True, "data": data}), code
@@ -122,7 +122,7 @@ def create_book():
     db.session.add(new_book)
     db.session.commit()
 
-    # upload image   
+    # upload image
     imageData = body.get('image')
     bookId = new_book.id
 

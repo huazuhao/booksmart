@@ -451,7 +451,7 @@ class LoginViewController: UIViewController {
         
         if canRegister {
             NetworkManager.registerUser(email: email, name: name, password: password, completion: { (accountDetails) in
-                self.currentUser = User(session_token: accountDetails.session_token, session_expiration: accountDetails.session_expiration, update_token: accountDetails.update_token, userId: <#Int#>)
+                LoginViewController.currentUser = User(session_token: accountDetails.session_token, session_expiration: accountDetails.session_expiration, update_token: accountDetails.update_token, userId: accountDetails.id)
             }) { (errorMessage) in
                 self.createAlert(message: errorMessage)
             }
@@ -492,7 +492,7 @@ class LoginViewController: UIViewController {
         
         if canLogIn {
             NetworkManager.loginUser(email: email, password: password, completion: { (accountDetails) in
-                self.currentUser = User(session_token: accountDetails.session_token, session_expiration: accountDetails.session_expiration, update_token: accountDetails.update_token)
+                LoginViewController.currentUser = User(session_token: accountDetails.session_token, session_expiration: accountDetails.session_expiration, update_token: accountDetails.update_token, userId: accountDetails.id)
                 self.navigationController?.pushViewController(TabBarController(), animated: true)
             }) { (errorMessage) in
                 self.createAlert(message: errorMessage)

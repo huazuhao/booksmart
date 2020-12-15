@@ -276,7 +276,7 @@ class AddNewBook: UIViewController {
     
     func uploadImage(){
         print("there is a fake book id")
-        let fakeBookID:Int = 1
+        let fakeBookID:Int = LoginViewController.currentUser.id //this is correct now
         
         let imageData:NSData = bookImage.image!.pngData()! as NSData
         let imageStr = imageData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
@@ -290,9 +290,7 @@ class AddNewBook: UIViewController {
         
         var canUpload = true
         
-        
-        print("there is a fake seller id in add new book")
-        let fakeSellerID :Int = 1
+        let fakeSellerID :Int = LoginViewController.currentUser.id //this is now correct
 
         
         var userInputTitle:String = ""
@@ -380,7 +378,17 @@ class AddNewBook: UIViewController {
             var returnedBookID:Int?
             NetworkManager.postBookNoImage(newBookDataNoImage: uploadBook){ responseData in
                 returnedBookID = responseData.id
+                
             }
+            
+            //set the field back to default
+            self.bookTitle.text = ""
+            self.bookAuthor.text = ""
+            self.bookEdition.text = ""
+            self.bookPrice.text = ""
+            self.bookISBN.text = ""
+            self.courseUsedFor.text = ""
+            
         }
         
     }
@@ -389,7 +397,7 @@ class AddNewBook: UIViewController {
         print("confirm button tapped. do something")
 
         uploadBookWithNoImage()
-        
+        TabBarController().selectedIndex = 0
     }
 
     /*

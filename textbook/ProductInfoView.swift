@@ -27,7 +27,6 @@ class ProductInfoView: UIView {
     var sellerImage: UIImageView!
     var addButton: UIButton!
     var bookID:Int!
-    weak var delegate: dismissProductInfoProtocol?
 
     init() {
         super.init(frame: CGRect.zero)
@@ -277,12 +276,11 @@ class ProductInfoView: UIView {
     @objc func addButtonTapped()
     {
         //TODO - put books into cart
-        print("there is a fake seller id in productinfoview")
-        let fakeSellerID :Int = 1
+        
+        let fakeSellerID :Int = LoginViewController.currentUser.id //this is now correct
         let postStruct = addCartStruct(bookId: bookID)
         
         NetworkManager.addToCart(book: postStruct, currentUserId: fakeSellerID)
-        delegate?.dismissProductInfo()
     }
 
 }

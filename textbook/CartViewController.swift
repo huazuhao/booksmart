@@ -139,7 +139,7 @@ class CartViewController: UIViewController {
         
         print("retrieve user info in cartViewController")
         print("there is a fake userid inside cartviewcontroller")
-        let fakeSellerID :Int = 1
+        let fakeSellerID :Int = LoginViewController.currentUser.id //this is correct now
         
         var cartFromBackend : [Book] = []
         

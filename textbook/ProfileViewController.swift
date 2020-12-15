@@ -61,9 +61,9 @@ class ProfileViewController: UIViewController {
         profileTableView.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
         view.addSubview(profileTableView)
         
-        retrieveUserInfo()
         setupViews()
         setupContraints()
+        retrieveUserInfo()
     }
     
     override func viewDidAppear(_ animated: Bool){
@@ -73,9 +73,11 @@ class ProfileViewController: UIViewController {
     
     private func retrieveUserInfo(){
         
-        print("retrieve user info in ProfileViewController")
-        print("there is a fake userid inside ProfileViewController")
-        let fakeSellerID :Int = 1
+        print("using real user id")
+        print("in ProfileViewController")
+        
+        let fakeSellerID :Int =  LoginViewController.currentUser.id //this is correct now
+        
         
         NetworkManager.getUserInfo(currentUserId: fakeSellerID){ responseData in
             self.retrievedUserInfo = responseData
@@ -122,6 +124,8 @@ class ProfileViewController: UIViewController {
                 }
             }
             
+            
+            self.userName.text = self.retrievedUserInfo.name
             
             //reload
             DispatchQueue.main.async {
