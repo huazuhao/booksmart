@@ -13,7 +13,7 @@ class NetworkManager {
     
     private static let host = "http://0.0.0.0:5000"
     
-    static func getRecentlyAdded(completion: @escaping ([Book]) -> Void) {
+    static func getAll(completion: @escaping ([Book]) -> Void) {
         let endpoint = "\(host)/api/books/all/"
         AF.request(endpoint, method: .get).validate().responseData { response in
             

@@ -27,7 +27,6 @@ class ProductInfoView: UIView {
     var sellerImage: UIImageView!
     var addButton: UIButton!
     var bookID:Int!
-    weak var delegate: dismissProductInfoProtocol?
 
     init() {
         super.init(frame: CGRect.zero)
@@ -282,7 +281,6 @@ class ProductInfoView: UIView {
         let postStruct = addCartStruct(bookId: bookID)
         
         NetworkManager.addToCart(book: postStruct, currentUserId: fakeSellerID)
-        delegate?.dismissProductInfo()
     }
 
 }

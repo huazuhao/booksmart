@@ -378,7 +378,17 @@ class AddNewBook: UIViewController {
             var returnedBookID:Int?
             NetworkManager.postBookNoImage(newBookDataNoImage: uploadBook){ responseData in
                 returnedBookID = responseData.id
+                
             }
+            
+            //set the field back to default
+            self.bookTitle.text = ""
+            self.bookAuthor.text = ""
+            self.bookEdition.text = ""
+            self.bookPrice.text = ""
+            self.bookISBN.text = ""
+            self.courseUsedFor.text = ""
+            
         }
         
     }
