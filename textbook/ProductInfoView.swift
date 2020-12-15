@@ -286,6 +286,15 @@ class ProductInfoView: UIView {
         bookISBN.text = inputBookData.isbn
         bookClass.text = inputBookData.courseName
         
+        
+        //get seller name and email
+        var retrievedUserInfo: userInfoResponseDataStruct!
+        
+        NetworkManager.getUserInfo(currentUserId: inputBookData.sellerId){ [self] responseData in
+            retrievedUserInfo = responseData
+            self.sellerEmail.text = retrievedUserInfo.email
+            self.sellerName.text = retrievedUserInfo.name        }
+        
         bookID = inputBookData.id
     }
     
