@@ -170,7 +170,7 @@ class NetworkManager {
             "password": password
         ]
         
-        let endpoint = "http://0.0.0.0:5000/api/register/"
+        let endpoint = "\(host)/api/register/"
         
         AF.request(endpoint, method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseData { (response) in
             switch response.result {
@@ -199,7 +199,7 @@ class NetworkManager {
             "password": password
         ]
         
-        let endpoint = "http://0.0.0.0:5000/api/login/"
+         let endpoint = "\(host)/api/login/"
         
         AF.request(endpoint, method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseData { (response) in
             switch response.result {
