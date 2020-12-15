@@ -264,7 +264,9 @@ def add_to_cart(id):
     if user != c:
         return failure_response('Id does not match token')
 
-    #TODO: not your own book
+    # check user is not adding own book to cart
+    if user.is_selling(book):
+        return failure_response('Cannot add own book to cart.')
 
     # add to cart
     assoc = book_user_table.insert().values(book_id=bookId, user_id=id)
