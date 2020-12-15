@@ -31,7 +31,7 @@ def success_response(data, code=200):
     return json.dumps({"success": True, "data": data}), code
 
 def failure_response(message, code=404):
-    return json.dumps({"success": False, "error": "why"+message}), code
+    return json.dumps({"success": False, "error": message}), code
 
 ######### BOOKS ##########
 @app.route('/api/books/all/')
@@ -88,14 +88,14 @@ def create_book():
     [required]: title, price, sellerId
     [optional]: image, author, courseName, isbn, edition, condition
     '''
-    was_successful, session_token = extract_token(request)
+    # was_successful, session_token = extract_token(request)
 
-    if not was_successful:
-        return session_token
+    # if not was_successful:
+    #     return session_token
 
-    user = users_dao.get_user_by_update_token(session_token)
-    if not user or not user.verify_update_token(session_token):
-        return json.dumps({"error": "Invalid update token."})
+    # user = users_dao.get_user_by_update_token(session_token)
+    # if not user or not user.verify_update_token(session_token):
+    #     return failure_response('Invalid update token.')
     
     body = json.loads(request.data)
     price = body.get('price')
@@ -110,9 +110,9 @@ def create_book():
     if c is None:
         return failure_response('user not found')
 
-    # check user is the one who logged in
-    if user != c:
-        return failure_response('Id does not match token')
+    # # check user is the one who logged in
+    # if user != c:
+    #     return failure_response('Id does not match token')
 
     # create new book
     new_book = Book(image='', title=body.get('title'),\
@@ -138,11 +138,6 @@ def create_book():
 
     return success_response(data, 201)
 
-@app.route('/api/dev/books/delete-all/', methods=["DELETE"])
-def clear_books():
-    db.session.query(Book).delete()
-    db.session.commit()
-    return success_response({})
 
 ######### USERS ##########
 @app.route('/api/users/<int:id>/')
@@ -235,14 +230,14 @@ def add_to_cart(id):
     body:
     [required]: bookId
     '''
-    was_successful, session_token = extract_token(request)
+    # was_successful, session_token = extract_token(request)
 
-    if not was_successful:
-        return session_token
+    # if not was_successful:
+    #     return session_token
 
-    user = users_dao.get_user_by_update_token(session_token)
-    if not user or not user.verify_update_token(session_token):
-        return json.dumps({"error": "Invalid session token."})
+    # user = users_dao.get_user_by_update_token(session_token)
+    # if not user or not user.verify_update_token(session_token):
+    #     return json.dumps({"error": "Invalid session token."})
     
     body = json.loads(request.data)
     bookId = body.get('bookId')
@@ -260,9 +255,10 @@ def add_to_cart(id):
     if c is None:
         return failure_response('user not found')
 
-    # check user is the one who logged in
-    if user != c:
-        return failure_response('Id does not match token')
+    # # check user is the one who logged in
+    # if user != c:
+    #     return failure_response('Id does not match token')
+    user = c
 
     # check user is not adding own book to cart
     if user.is_selling(book):
@@ -281,14 +277,14 @@ def remove_from_cart(id):
     body:
     [required]: bookId
     '''
-    was_successful, session_token = extract_token(request)
+    # was_successful, session_token = extract_token(request)
 
-    if not was_successful:
-        return session_token
+    # if not was_successful:
+    #     return session_token
 
-    user = users_dao.get_user_by_update_token(session_token)
-    if not user or not user.verify_update_token(session_token):
-        return json.dumps({"error": "Invalid session token."})
+    # user = users_dao.get_user_by_update_token(session_token)
+    # if not user or not user.verify_update_token(session_token):
+    #     return json.dumps({"error": "Invalid session token."})
     
     body = json.loads(request.data)
     bookId = body.get('bookId')
@@ -306,9 +302,11 @@ def remove_from_cart(id):
     if c is None:
         return failure_response('user not found')
 
-    # check user is the one who logged in
-    if user != c:
-        return failure_response('Id does not match token')
+    # # check user is the one who logged in
+    # if user != c:
+    #     return failure_response('Id does not match token')
+
+    user = c
 
     # remove from cart
     if book in user.cart:
@@ -317,11 +315,6 @@ def remove_from_cart(id):
 
     return success_response(book.serialize(), 201)
 
-
-@app.route('/api/dev/users/delete-all/', methods=['DELETE'])
-def clear_users():
-    db.User.query.delete()
-    return success_response({})
 
 ###### ASSET #######
 # @app.route('/api/upload/', methods=['POST'])
