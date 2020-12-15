@@ -224,21 +224,59 @@ def update_session():
         "id": user.id
         })
 
+#@app.route('/api/users/<int:id>/cart/add/', methods=["POST"])
+#def add_to_cart(id):
+#    '''
+#    body:
+#    [required]: bookId
+#    '''
+#    # was_successful, session_token = extract_token(request)
+#
+#    # if not was_successful:
+#    #     return session_token
+#
+#    # user = users_dao.get_user_by_update_token(session_token)
+#    # if not user or not user.verify_update_token(session_token):
+#    #     return json.dumps({"error": "Invalid session token."})
+#
+#    body = json.loads(request.data)
+#    bookId = body.get('bookId')
+#
+#    if bookId is None:
+#        return failure_response('bookId is empty')
+#
+#    # get book
+#    book = Book.query.filter_by(id = bookId).first()
+#    if book is None:
+#        return failure_response('book not found')
+#
+#    # get user
+#    c = User.query.filter_by(id = id).first()
+#    if c is None:
+#        return failure_response('user not found')
+#
+#    # # check user is the one who logged in
+#    # if user != c:
+#    #     return failure_response('Id does not match token')
+#    user = c
+#
+#    # check user is not adding own book to cart
+#    if user.is_selling(book):
+#        return failure_response('Cannot add own book to cart.')
+#
+#    # add to cart
+#    assoc = book_user_table.insert().values(book_id=bookId, user_id=id)
+#    db.session.execute(assoc)
+#    db.session.commit()
+#
+#    return success_response(book.serialize(), 201)
+    
 @app.route('/api/users/<int:id>/cart/add/', methods=["POST"])
 def add_to_cart(id):
     '''
     body:
     [required]: bookId
     '''
-    # was_successful, session_token = extract_token(request)
-
-    # if not was_successful:
-    #     return session_token
-
-    # user = users_dao.get_user_by_update_token(session_token)
-    # if not user or not user.verify_update_token(session_token):
-    #     return json.dumps({"error": "Invalid session token."})
-    
     body = json.loads(request.data)
     bookId = body.get('bookId')
 
@@ -251,18 +289,11 @@ def add_to_cart(id):
         return failure_response('book not found')
     
     # get user
-    c = User.query.filter_by(id = id).first()
-    if c is None:
+    user = User.query.filter_by(id = id).first()
+    if user is None:
         return failure_response('user not found')
 
-    # # check user is the one who logged in
-    # if user != c:
-    #     return failure_response('Id does not match token')
-    user = c
-
-    # check user is not adding own book to cart
-    if user.is_selling(book):
-        return failure_response('Cannot add own book to cart.')
+    #TODO: not your own book
 
     # add to cart
     assoc = book_user_table.insert().values(book_id=bookId, user_id=id)
