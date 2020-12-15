@@ -151,6 +151,7 @@ struct accountDetails: Codable {
     var session_token: String
     var session_expiration: String
     var update_token: String
+    var id:Int
 }
 
 struct accountError: Codable {

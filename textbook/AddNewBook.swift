@@ -290,9 +290,7 @@ class AddNewBook: UIViewController {
         
         var canUpload = true
         
-        
-        print("there is a fake seller id in add new book")
-        let fakeSellerID :Int = 1
+        let fakeSellerID :Int = LoginViewController.currentUser.id //this is now correct
 
         
         var userInputTitle:String = ""
@@ -389,7 +387,7 @@ class AddNewBook: UIViewController {
         print("confirm button tapped. do something")
 
         uploadBookWithNoImage()
-        
+        TabBarController().selectedIndex = 0
     }
 
     /*
