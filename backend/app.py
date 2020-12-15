@@ -206,7 +206,8 @@ def login():
     return json.dumps({
         "session_token": user.session_token,
         "session_expiration": str(user.session_expiration),
-        "update_token": user.update_token
+        "update_token": user.update_token,
+        "id": user.id
         })
 
 @app.route("/api/session/", methods=["POST"])
@@ -224,7 +225,8 @@ def update_session():
     return json.dumps({
         "session_token": user.session_token,
         "session_expiration": str(user.session_expiration),
-        "update_token": user.update_token
+        "update_token": user.update_token,
+        "id": user.id
         })
 
 @app.route('/api/users/<int:id>/cart/add/', methods=["POST"])

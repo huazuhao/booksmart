@@ -32,7 +32,7 @@ class LoginViewController: UIViewController {
     var loginTab: UIButton!
     var loginButton: UIButton!
     
-    var currentUser: User!
+    static var currentUser: User!
     
 
     override func viewDidLoad() {
@@ -397,26 +397,106 @@ class LoginViewController: UIViewController {
     }
     
     @objc func registerButtonTapped() {
-        let email = registerEmail.text
-        let name = registerFName.text + " " + registerLName.text
-        let password = registerPassword.text
         
-        NetworkManager.registerUser(email: email, name: name, password: password, completion: { (accountDetails) in
-            self.currentUser = User(session_token: accountDetails.session_token, session_expiration: accountDetails.session_expiration, update_token: accountDetails.update_token)
-        }) { (errorMessage) in
-            self.createAlert(messsage: errorMessage)
+        var canRegister = true
+        
+        var userInputEmail = ""
+        if let email = registerEmail.text{
+            userInputEmail = email
+        }
+        if (userInputEmail == "") {
+            let alert = UIAlertController(title: "Alert", message: "Please provide an email address", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            canRegister = false
+        }
+        
+        var userInputFName = ""
+        if let firstName = registerFName.text{
+            userInputFName = firstName
+        }
+        if (userInputFName == "") {
+            let alert = UIAlertController(title: "Alert", message: "Please provide a first name", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            canRegister = false
+        }
+        
+        var userInputLName = ""
+        if let lastName = registerLName.text{
+            userInputLName = lastName
+        }
+        if (userInputLName == "") {
+            let alert = UIAlertController(title: "Alert", message: "Please provide a last name", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            canRegister = false
+        }
+        
+        var userInputPassword = ""
+        if let password = registerPassword.text{
+            userInputPassword  = password
+        }
+        if (userInputPassword == "") {
+            let alert = UIAlertController(title: "Alert", message: "Please set a password", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            canRegister = false
+        }
+        
+        
+        let email = userInputEmail
+        let name = userInputFName + " " + userInputLName
+        let password = userInputPassword
+        
+        if canRegister {
+            NetworkManager.registerUser(email: email, name: name, password: password, completion: { (accountDetails) in
+                self.currentUser = User(session_token: accountDetails.session_token, session_expiration: accountDetails.session_expiration, update_token: accountDetails.update_token, userId: <#Int#>)
+            }) { (errorMessage) in
+                self.createAlert(message: errorMessage)
+            }
         }
     }
     
     @objc func loginButtonTapped() {
-        let email = loginEmail.text
-        let password = loginPassword.text
         
-        NetworkManager.loginUser(email: email, password: password, completion: { (accountDetails) in
-            self.currentUser = User(session_token: accountDetails.session_token, session_expiration: accountDetails.session_expiration, update_token: accountDetails.update_token)
-            self.navigationController?.pushViewController(TabBarController(), animated: true)
-        }) { (errorMessage) in
-            self.createAlert(message: errorMessage)
+        
+        var canLogIn = true
+        
+        var userInputEmail = ""
+        if let email = loginEmail.text{
+            userInputEmail = email
+        }
+        if (userInputEmail == "") {
+            let alert = UIAlertController(title: "Alert", message: "Please provide an email address", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            canLogIn = false
+        }
+        
+        var userInputPassword = ""
+        if let password = loginPassword.text{
+            userInputPassword  = password
+        }
+        if (userInputPassword == "") {
+            let alert = UIAlertController(title: "Alert", message: "Please enter your password", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            canLogIn = false
+        }
+        
+        
+        
+        let email = userInputEmail
+        let password = userInputPassword
+        
+        if canLogIn {
+            NetworkManager.loginUser(email: email, password: password, completion: { (accountDetails) in
+                self.currentUser = User(session_token: accountDetails.session_token, session_expiration: accountDetails.session_expiration, update_token: accountDetails.update_token)
+                self.navigationController?.pushViewController(TabBarController(), animated: true)
+            }) { (errorMessage) in
+                self.createAlert(message: errorMessage)
+            }
         }
     }
     
