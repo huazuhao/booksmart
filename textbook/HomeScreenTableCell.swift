@@ -36,7 +36,7 @@ class HomeScreenTableCell: UITableViewCell{
         
         cellTitle = UILabel()
         cellTitle.translatesAutoresizingMaskIntoConstraints = false
-        cellTitle.font = UIFont(name: "GillSans-Italic", size: 23.0)
+        cellTitle.font = .boldSystemFont(ofSize: 28)
         contentView.addSubview(cellTitle)
         
         embedCollectionView = HomeScreenCollectionView()
