@@ -27,7 +27,7 @@ class HomeScreenController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        view.backgroundColor = .lightGray
+        setupBackground()
         homeScreenUITableHeight = view.frame.height*0.6
         
         navigationItem.searchController = searchControllerOne
@@ -67,6 +67,18 @@ class HomeScreenController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool){
         updateAll()
+    }
+    
+    func setupBackground() {
+        let background = UIImage(named: "white_background")
+        var imageView: UIImageView!
+        imageView = UIImageView(frame: view.bounds)
+        imageView.image = background
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.center = view.center
+        view.addSubview(imageView)
+        self.view.sendSubviewToBack(imageView)
     }
     
     func setupConstraints(){

@@ -39,11 +39,22 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         navigationController?.navigationBar.isHidden = true
-        view.layer.backgroundColor = yellow
-        navigationController?.navigationBar.isHidden = true
         
+        setupBackground()
         setupViews()
         setupConstraints()
+    }
+    
+    func setupBackground() {
+        let background = UIImage(named: "yellow_background")
+        var imageView: UIImageView!
+        imageView = UIImageView(frame: view.bounds)
+        imageView.image = background
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.center = view.center
+        view.addSubview(imageView)
+        self.view.sendSubviewToBack(imageView)
     }
     
     func setupViews() {
