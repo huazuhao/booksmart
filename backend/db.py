@@ -107,6 +107,10 @@ class User(db.Model):
       'cart': [b.serialize() for b in self.cart]
     }
 
+    # A helper function for add_to_cart in app.py
+  def is_selling(self,book):
+    return book in self.selling
+
     # Used to randomly generate session/update tokens
   def _urlsafe_base_64(self):
       return hashlib.sha1(os.urandom(64)).hexdigest()
