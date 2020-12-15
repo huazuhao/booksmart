@@ -95,6 +95,9 @@ class HomeScreenController: UIViewController {
                 self.recentlyAdded.append(newItem)
             }
 
+            self.recentlyAdded = self.recentlyAdded.sorted(by: { $0.createdAt > $1.createdAt })
+            self.lowestSellingPrice = self.lowestSellingPrice.sorted(by: { $0.price < $1.price })
+            
             //reload
             DispatchQueue.main.async {
                 self.homeScreenUITable.reloadData()
@@ -126,8 +129,8 @@ class HomeScreenController: UIViewController {
                 
             }
             
-            self.recentlyAdded.sorted(by: { $0.createdAt > $1.createdAt })
-            self.recentlyAdded.sorted(by: { $0.price < $1.price })
+            self.recentlyAdded = self.recentlyAdded.sorted(by: { $0.createdAt > $1.createdAt })
+            self.lowestSellingPrice = self.lowestSellingPrice.sorted(by: { $0.price < $1.price })
             
             //reload
             DispatchQueue.main.async {
@@ -167,7 +170,7 @@ extension HomeScreenController:UITableViewDataSource{
         }
         
         if indexPath.row == 1{
-            cell.configure(rowName: "Lowest Selling Price", rowData: self.recentlyAdded)
+            cell.configure(rowName: "Lowest Selling Price", rowData: self.lowestSellingPrice)
             cell.newScreenDelegate = self
         }
         
