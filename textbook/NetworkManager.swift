@@ -11,7 +11,7 @@ import Alamofire
 
 class NetworkManager {
     
-    private static let host = "http://0.0.0.0:5000"
+    private static let host = "https://hackathonbooksmart.herokuapp.com/"
     
     static func getAll(completion: @escaping ([Book]) -> Void) {
         let endpoint = "\(host)/api/books/all/"
