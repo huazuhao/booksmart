@@ -12,6 +12,9 @@ import re
 import string
 import os
 import hashlib
+import dotenv
+from dotenv import load_dotenv
+load_dotenv()
 
 db = SQLAlchemy()
 
@@ -136,10 +139,10 @@ class Asset(db.Model):
 
   id = db.Column(db.Integer, primary_key=True)
   base_url = db.Column(db.String, nullable=True)
-  salt = db.Column(db.String, nullable=True)
-  extension = db.Column(db.String, nullable=True)
-  width = db.Column(db.Integer, nullable=True)
-  height = db.Column(db.Integer, nullable=True)
+  salt = db.Column(db.String, nullable=False)
+  extension = db.Column(db.String, nullable=False)
+  width = db.Column(db.Integer, nullable=False)
+  height = db.Column(db.Integer, nullable=False)
   # createdAt = db.Column(db.String, default=_get_date)
   createdAt = db.Column(db.DateTime, nullable=False)
 
@@ -195,18 +198,17 @@ class Asset(db.Model):
       img.save(img_temploc)
 
       # upload image to S3
-      s3_client = boto3.client('s3')
+      s3_client = boto3.client('s3', aws_access_key_id=os.getenv('AWSAccessKeyId'), aws_secret_access_key=os.getenv('AWSSecretKey'))
       s3_client.upload_file(img_temploc, S3_BUCKET, img_filename)
 
       # make S3 img url public
-      s3_resource = boto3.resource('s3')
+      s3_resource = boto3.resource('s3', aws_access_key_id=os.getenv('AWSAccessKeyId'), aws_secret_access_key=os.getenv('AWSSecretKey'))
       object_acl = s3_resource.ObjectAcl(S3_BUCKET, img_filename)
       object_acl.put(ACL="public-read")
 
       # remove from temporary location
       os.remove(img_temploc)
 
-
     except Exception as e:
-      print(f'Unable to create image due to {e}.')
+      print(f'Unable to upload image due to {e}.')
 

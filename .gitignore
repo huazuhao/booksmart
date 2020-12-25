@@ -2,8 +2,11 @@
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
 .DS_Store
-*.vscode
+.vscode/
 backend/__pycache__/
+backend/.env
+backend/.vscode/
+backend/venv/
 
 ## User settings
 xcuserdata/
